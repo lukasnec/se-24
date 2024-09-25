@@ -8,19 +8,24 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\matau\\.nuget\\packages\\": {}
+    "C:\\Users\\lukas\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\se-24.csproj",
+      "projectUniqueName": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\se-24.csproj",
       "projectName": "se-24",
-      "projectPath": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\se-24.csproj",
-      "packagesPath": "C:\\Users\\matau\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\obj\\",
+      "projectPath": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\se-24.csproj",
+      "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\matau\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lukas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -70,7 +75,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

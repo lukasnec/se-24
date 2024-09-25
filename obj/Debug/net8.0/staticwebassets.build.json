@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ISkiQjaC/1zuN0+V8GB4fsY+dxuTsa/OZZgt2WS8rDU=",
+  "Hash": "o/VhYBRAJm0e7Rr5xZaxAgSPsBkDfzni0AuG9IrY+k0=",
   "Source": "se-24",
   "BasePath": "_content/se-24",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "se-24\\wwwroot",
       "Source": "se-24",
-      "ContentRoot": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\",
       "BasePath": "_content/se-24",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\obj\\Debug\\net8.0\\scopedcss\\bundle\\se-24.styles.css",
+      "Identity": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\obj\\Debug\\net8.0\\scopedcss\\bundle\\se-24.styles.css",
       "SourceId": "se-24",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/se-24",
       "RelativePath": "se-24.styles.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\obj\\Debug\\net8.0\\scopedcss\\bundle\\se-24.styles.css"
+      "OriginalItemSpec": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\obj\\Debug\\net8.0\\scopedcss\\bundle\\se-24.styles.css"
     },
     {
-      "Identity": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\se-24.bundle.scp.css",
+      "Identity": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\se-24.bundle.scp.css",
       "SourceId": "se-24",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/se-24",
       "RelativePath": "se-24.bundle.scp.css",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\se-24.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\se-24.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\app.css",
+      "Identity": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\app.css",
       "SourceId": "se-24",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\",
       "BasePath": "_content/se-24",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "se-24",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\",
       "BasePath": "_content/se-24",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "se-24",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\",
       "BasePath": "_content/se-24",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\favicon.png",
+      "Identity": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\favicon.png",
       "SourceId": "se-24",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\matau\\OneDrive\\Documents\\IT\\SE projektas\\se-24\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lukas\\Downloads\\se-24\\se-24\\wwwroot\\",
       "BasePath": "_content/se-24",
       "RelativePath": "favicon.png",
       "AssetKind": "All",

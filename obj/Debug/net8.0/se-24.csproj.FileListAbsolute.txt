@@ -58,3 +58,33 @@ C:\Users\matau\OneDrive\Documents\IT\SE projektas\se-24\obj\Debug\net8.0\refint\
 C:\Users\matau\OneDrive\Documents\IT\SE projektas\se-24\obj\Debug\net8.0\se-24.pdb
 C:\Users\matau\OneDrive\Documents\IT\SE projektas\se-24\obj\Debug\net8.0\se-24.genruntimeconfig.cache
 C:\Users\matau\OneDrive\Documents\IT\SE projektas\se-24\obj\Debug\net8.0\ref\se-24.dll
+C:\Users\lukas\Downloads\se-24\se-24\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\lukas\Downloads\se-24\se-24\bin\Debug\net8.0\appsettings.json
+C:\Users\lukas\Downloads\se-24\se-24\bin\Debug\net8.0\se-24.staticwebassets.runtime.json
+C:\Users\lukas\Downloads\se-24\se-24\bin\Debug\net8.0\se-24.exe
+C:\Users\lukas\Downloads\se-24\se-24\bin\Debug\net8.0\se-24.deps.json
+C:\Users\lukas\Downloads\se-24\se-24\bin\Debug\net8.0\se-24.runtimeconfig.json
+C:\Users\lukas\Downloads\se-24\se-24\bin\Debug\net8.0\se-24.dll
+C:\Users\lukas\Downloads\se-24\se-24\bin\Debug\net8.0\se-24.pdb
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.AssemblyInfoInputs.cache
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.AssemblyInfo.cs
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.csproj.CoreCompileInputs.cache
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.sourcelink.json
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\staticwebassets\msbuild.se-24.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\staticwebassets\msbuild.build.se-24.props
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.se-24.props
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.se-24.props
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\scopedcss\bundle\se-24.styles.css
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\scopedcss\projectbundle\se-24.bundle.scp.css
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.dll
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\refint\se-24.dll
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.pdb
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\se-24.genruntimeconfig.cache
+C:\Users\lukas\Downloads\se-24\se-24\obj\Debug\net8.0\ref\se-24.dll
