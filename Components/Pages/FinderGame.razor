@@ -1,0 +1,130 @@
+﻿@page "/findergame"
+@inject NavigationManager NavigationManager
+@using src.Games.FinderGame
+@using src.Games
+
+<PageTitle>Find Objects</PageTitle>
+
+@if (finderGame.GetCurrentGameState() == GameState.waiting)
+{
+    <div style="position:relative; padding: 10px; text-align: center;">
+        <button @onclick="StartGame"
+                style="border-radius: 10px;
+                       font-size: 24px;">
+            Start Game
+        </button>
+    </div>
+}
+else
+{
+    <h3>Find the objects that don't belong in the set time!</h3>
+    <p>@($"Time left: {counter}")</p>
+    <div style="position:relative; padding: 10px;">
+        <div style="display:flex; flex-direction:row">
+            <!-- Background image -->
+            <img src="@finderGame.GetCurrentLevel().image" style="width:100%;" />
+
+            <!-- List of objects to find -->
+            <div style="border: solid;
+                        padding: 10px">
+                <h4>Objects to find</h4>
+                <hr />
+                @foreach (var obj in finderGame.GetCurrentLevel().gameObjects)
+                {
+                    @if (!obj.isFound)
+                    {
+                        <div>
+                            @(obj.name)
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+
+        <!-- Objects to find -->
+        @foreach (var obj in finderGame.GetCurrentLevel().gameObjects)
+        {
+            <img src="@obj.image" @onclick="() => finderGame.ObjectClicked(obj)"
+                 style="position:absolute;
+                        left:@($"{obj.positionX}%");
+                        top:@($"{obj.positionY}%");
+                        width: 50px;
+                        height: 50px;
+                        display:@(obj.isFound ? "none" : "block");" />
+        }
+
+        @if (finderGame.CheckIfAllObjectsFound())
+        {
+            <!-- Pop-up to congratulate and show home and next buttons -->
+            <div style="position:absolute;
+                        left: 30%;
+                        top: 45%;
+                        color: green;
+                        font-size: 24px;
+                        padding: 10px;
+                        background-color: white;
+                        border-radius: 10px;">
+                You found all the objects. Congratulations!
+                <div style="text-align: center">
+                    <button @onclick="@finderGame.ReturnToHomePage">
+                        Try other games
+                    </button>
+                    <button @onclick="@finderGame.LoadNextLevel">
+                        Next level
+                    </button>
+                </div>
+            </div>
+        }
+        @if (finderGame.GetCurrentGameState() == GameState.failed)
+        {
+            <!-- Pop-up to show failure with home and retry buttons -->
+            <div style="position:absolute;
+                        left: 30%;
+                        top: 45%;
+                        color: red;
+                        font-size: 24px;
+                        padding: 10px;
+                        background-color: white;
+                        border-radius: 10px;">
+                You failed to find all the objects in the given time!
+                <div style="text-align: center">
+                    <button @onclick="@finderGame.ReturnToHomePage">
+                        Try other games
+                    </button>
+                    <button @onclick="@finderGame.ReloadLevel">
+                        Retry
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+
+@code {
+    private FinderGameB finderGame;
+    private int counter = 10;
+    private static System.Timers.Timer timer;
+
+    protected override void OnInitialized()
+    {
+        finderGame = new FinderGameB(NavigationManager);
+    }
+
+    private void StartGame()
+    {
+        finderGame.StartGame();
+        counter = finderGame.GetCurrentTimer();
+        timer = new System.Timers.Timer(1000);
+        timer.Elapsed += UpdateTimer;
+        timer.Enabled = true;
+    }
+
+    public void UpdateTimer(object source, System.Timers.ElapsedEventArgs e)
+    {
+        counter = finderGame.GetCurrentTimer();
+        InvokeAsync(StateHasChanged);
+    }
+}
