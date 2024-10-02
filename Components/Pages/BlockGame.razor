@@ -1,0 +1,118 @@
+@page "/blockgame"
+@inject NavigationManager Navigation
+@using src.Games.BlockGame
+
+<h3>Block Game</h3>
+
+<div class="grid">
+    <div id="square1" class="square @(IsSquareLit(1) ? "light" : "")" @onclick="() => OnPlayerClick(1)">1</div>
+    <div id="square2" class="square @(IsSquareLit(2) ? "light" : "")" @onclick="() => OnPlayerClick(2)">2</div>
+    <div id="square3" class="square @(IsSquareLit(3) ? "light" : "")" @onclick="() => OnPlayerClick(3)">3</div>
+    <div id="square4" class="square @(IsSquareLit(4) ? "light" : "")" @onclick="() => OnPlayerClick(4)">4</div>
+</div>
+
+<button @onclick="StartNewRound">Start New Round</button>
+<p>@statusMessage</p>
+
+@code {
+    private Game blockGame = new Game(); // Game instance to manage the logic
+    private string statusMessage = "Press 'Start New Round' to begin."; // Game status message
+    private bool isAnimatingSequence = false; // Flag to block player input during sequence animation
+    private int? activeSquare = null; // Holds the ID of the currently lit square
+    private int currentPlayerStep = 0; // Tracks player's current progress in repeating the sequence
+
+    // Called when the player clicks on a square
+    private async void OnPlayerClick(int squareId)
+    {
+        if (isAnimatingSequence) return; // Ignore clicks during the sequence animation
+
+        // Validate the player's input at the current step
+        if (blockGame.CheckPlayerInput(squareId))
+        {
+            currentPlayerStep++; // Move to the next step in the player's sequence
+
+            // Check if the player has completed the entire sequence for this round
+            if (blockGame.IsRoundComplete())
+            {
+                statusMessage = "Correct! Next round starting...";
+
+                blockGame.ResetRound(); // Reset the current round for the next sequence
+                currentPlayerStep = 0; // Reset player step for the next round
+                StartNewRound(); // Automatically start the next round
+            }
+        }
+        else
+        {
+            // Incorrect input, reset the game
+            statusMessage = "Wrong! Game over. Press 'Start New Round' to try again.";
+
+            blockGame.ResetGame(); // Reset the game state
+            currentPlayerStep = 0; // Reset progress
+        }
+    }
+
+    // Starts a new round by adding a square to the sequence and displaying the sequence
+    private async void StartNewRound()
+    {
+        isAnimatingSequence = true; // Disable player input during animation
+        statusMessage = "Watch the sequence...";
+
+        // Add a new square to the sequence before starting the iteration
+        blockGame.AddRandomSquare(); // Add a new square to the sequence
+
+        // Display the entire sequence by lighting up the squares one by one
+        foreach (var squareId in blockGame.Sequence.ToList()) // Use ToList() to avoid modifying the collection during iteration
+        {
+            activeSquare = squareId; // Highlight the current square
+            StateHasChanged(); // Force Blazor to update the UI after changing activeSquare
+
+            await Task.Delay(800); // Light it up for 800ms
+            activeSquare = null; // Turn off the light
+            StateHasChanged(); // Force UI update again to turn off the light
+            await Task.Delay(300); // Wait 300ms before lighting the next square
+        }
+
+        statusMessage = "Your turn! Repeat the sequence.";
+        isAnimatingSequence = false; // Allow player input after the sequence is displayed
+        StateHasChanged(); // Final UI update after the sequence is displayed
+    }
+
+    // Utility to determine if a square should be lit
+    private bool IsSquareLit(int squareId)
+    {
+        return activeSquare == squareId;
+    }
+}
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 100px); /* Creates a grid of 2 columns */
+        gap: 20px; /* Space between grid items */
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .square {
+        width: 100px;
+        height: 100px;
+        background-color: lightgray;
+        border: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        cursor: pointer;
+    }
+
+    .light {
+        background-color: yellow;
+    }
+
+    button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+</style>
