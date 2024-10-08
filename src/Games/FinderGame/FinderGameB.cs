@@ -7,25 +7,26 @@ namespace src.Games.FinderGame
     {
 
         private readonly NavigationManager _navigationManager;
+        private readonly LevelLoader _levelLoader = new();
         private GameState _gameState = GameState.Waiting;
 
         private int objectsFound = 0;
 
-        private List<Level> levels = new()
-        {
-            new Level { Id = 0, Image = "images/low-res-jars-background.jpg", GivenTime = 60, GameObjects = new()
-            {
-                new GameObject { Name = "Kitchen Knife", Image = "images/pixelated-knife.png", PositionX = 17, PositionY = 15 },
-                new GameObject { Name = "Santa Claus", Image = "images/pixelated-santa.png", PositionX = 40, PositionY = 30 },
-                new GameObject { Name = "Kerosene Lamp", Image = "images/pixelated-lamp.png", PositionX = 50, PositionY = 10 }
-            }},
-            new Level { Id = 1, Image = "images/low-res-jars-background.jpg", GivenTime = 40, GameObjects = new()
-            {
-                new GameObject { Name = "Kitchen Knife", Image = "images/pixelated-knife.png", PositionX = 40, PositionY = 60 },
-                new GameObject { Name = "Santa Claus", Image = "images/pixelated-santa.png", PositionX = 50, PositionY = 50 },
-                new GameObject { Name = "Kerosene Lamp", Image = "images/pixelated-lamp.png", PositionX = 50, PositionY = 10 }
-            }}
-        };
+        private List<Level> levels = [];
+        //{
+        //    new Level { Id = 0, Image = "images/low-res-jars-background.jpg", GivenTime = 60, GameObjects = new()
+        //    {
+        //        new GameObject { Name = "Kitchen Knife", Image = "images/pixelated-knife.png", PositionX = 17, PositionY = 15 },
+        //        new GameObject { Name = "Santa Claus", Image = "images/pixelated-santa.png", PositionX = 40, PositionY = 30 },
+        //        new GameObject { Name = "Kerosene Lamp", Image = "images/pixelated-lamp.png", PositionX = 50, PositionY = 10 }
+        //    }},
+        //    new Level { Id = 1, Image = "images/low-res-jars-background.jpg", GivenTime = 40, GameObjects = new()
+        //    {
+        //        new GameObject { Name = "Kitchen Knife", Image = "images/pixelated-knife.png", PositionX = 40, PositionY = 60 },
+        //        new GameObject { Name = "Santa Claus", Image = "images/pixelated-santa.png", PositionX = 50, PositionY = 50 },
+        //        new GameObject { Name = "Kerosene Lamp", Image = "images/pixelated-lamp.png", PositionX = 50, PositionY = 10 }
+        //    }}
+        //};
 
         private int currentLevelIndex;
 
@@ -36,6 +37,7 @@ namespace src.Games.FinderGame
         public FinderGameB(NavigationManager navigationManager)
         {
             _navigationManager = navigationManager;
+            levels = _levelLoader.LoadAllLevels("wwwroot/Levels/FinderGame");
             currentLevelIndex = 0;
             defaultTime = levels[currentLevelIndex].GivenTime;
         }
