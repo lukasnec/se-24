@@ -2,9 +2,9 @@
 {
     public enum GameState
     {
-        waiting,
-        started,
-        finished,
-        failed
+        Waiting,
+        Started,
+        Finished,
+        Failed
     }
 }
