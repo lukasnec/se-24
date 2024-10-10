@@ -45,22 +45,44 @@ namespace se_24.src.Games.ReadingGame
         // Function to load questions from JSON file
         public async Task LoadQuestionsAsync(int levelToLoad)
         {
-            var filePath = "questions.json";
+            var filePath = "questions.json"; // Path to your JSON file
+
             if (File.Exists(filePath))
             {
-                string jsonString = await File.ReadAllTextAsync(filePath);
-
-                var levelData = JsonSerializer.Deserialize<LevelObject>(jsonString);
-
-                if (levelData != null && levelData.level == levelToLoad)
+                using (FileStream fs = File.OpenRead(filePath))
                 {
-                    text = levelData.text;
-                    readingTime = levelData.readingTime;
-                    questions = levelData.questions;
-                    numberOfQuestions = questions.Length;
+                    JsonDocument jsonDocument = await JsonDocument.ParseAsync(fs);
+
+                    var levelsNode = jsonDocument.RootElement.GetProperty("Levels");
+
+                    if (levelsNode.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var levelElement in levelsNode.EnumerateArray())
+                        {
+                            if (levelElement.GetProperty("level").GetInt32() == levelToLoad)
+                            {
+                                readingTime = levelElement.GetProperty("readingTime").GetInt32();
+
+                                text = levelElement.GetProperty("text").GetString();
+
+                                var questionsNode = levelElement.GetProperty("questions");
+                                questions = JsonSerializer.Deserialize<QuestionObject[]>(questionsNode.GetRawText());
+
+                                if (questions != null)
+                                {
+                                    numberOfQuestions = questions.Length;
+                                }
+
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
+
+
+
 
         // Function to start the reading level
         public async Task OnStartClick()
