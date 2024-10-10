@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.IO;
-using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json;
 
 
-namespace se_24.src.Games.ReadingGame
+namespace src.Games.ReadingGame
 {
     public class ReadingB
     {
@@ -45,7 +42,7 @@ namespace se_24.src.Games.ReadingGame
         // Function to load questions from JSON file
         public async Task LoadQuestionsAsync(int levelToLoad)
         {
-            var filePath = "questions.json"; // Path to your JSON file
+            var filePath = "questions.json";
 
             if (File.Exists(filePath))
             {
@@ -122,7 +119,7 @@ namespace se_24.src.Games.ReadingGame
         // Function to handle answer click
         public void AnswerClick(int answerNumber)
         {
-            if (answerNumber == questions[currentQuestion - 1].correctAnswer)
+            if (answerNumber == questions[currentQuestion - 1].CorrectAnswers)
             {
                 score++;
                 correct = "Correct!";
@@ -157,11 +154,11 @@ namespace se_24.src.Games.ReadingGame
         {
             if (currentQuestion <= numberOfQuestions)
             {
-                question = questions[currentQuestion - 1].question;
-                answer1 = questions[currentQuestion - 1].answers[0];
-                answer2 = questions[currentQuestion - 1].answers[1];
-                answer3 = questions[currentQuestion - 1].answers[2];
-                answer4 = questions[currentQuestion - 1].answers[3];
+                question = questions[currentQuestion - 1].Question;
+                answer1 = questions[currentQuestion - 1].Answers[0];
+                answer2 = questions[currentQuestion - 1].Answers[1];
+                answer3 = questions[currentQuestion - 1].Answers[2];
+                answer4 = questions[currentQuestion - 1].Answers[3];
             }
         }
 

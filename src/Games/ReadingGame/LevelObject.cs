@@ -1,10 +1,10 @@
-﻿namespace se_24.src.Games.ReadingGame
+﻿namespace src.Games.ReadingGame
 {
     public class LevelObject
     {
-        public int level { get; set; }
-        public string text { get; set; } = "";
-        public int readingTime { get; set; } = 60;
-        public QuestionObject[] questions { get; set; } = new QuestionObject[0];
+        public int Level { get; set; }
+        public string Text { get; set; } = "";
+        public int ReadingTime { get; set; } = 60;
+        public QuestionObject[] Questions { get; set; } = new QuestionObject[0];
     }
 }
