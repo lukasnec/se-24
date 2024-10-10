@@ -56,13 +56,13 @@ namespace src.Games.ReadingGame
                     {
                         foreach (var levelElement in levelsNode.EnumerateArray())
                         {
-                            if (levelElement.GetProperty("level").GetInt32() == levelToLoad)
+                            if (levelElement.GetProperty("Level").GetInt32() == levelToLoad)
                             {
-                                readingTime = levelElement.GetProperty("readingTime").GetInt32();
+                                readingTime = levelElement.GetProperty("ReadingTime").GetInt32();
 
-                                text = levelElement.GetProperty("text").GetString();
+                                text = levelElement.GetProperty("Text").GetString();
 
-                                var questionsNode = levelElement.GetProperty("questions");
+                                var questionsNode = levelElement.GetProperty("Questions");
                                 questions = JsonSerializer.Deserialize<QuestionObject[]>(questionsNode.GetRawText());
 
                                 if (questions != null)
@@ -119,7 +119,7 @@ namespace src.Games.ReadingGame
         // Function to handle answer click
         public void AnswerClick(int answerNumber)
         {
-            if (answerNumber == questions[currentQuestion - 1].CorrectAnswers)
+            if (answerNumber == questions[currentQuestion - 1].CorrectAnswer)
             {
                 score++;
                 correct = "Correct!";
@@ -139,6 +139,7 @@ namespace src.Games.ReadingGame
             }
             isButtonsDisabled = true;
         }
+
 
         // Function to move to the next question
         public void OnNextQuestion()
