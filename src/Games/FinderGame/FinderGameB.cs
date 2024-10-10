@@ -7,25 +7,12 @@ namespace src.Games.FinderGame
     {
 
         private readonly NavigationManager _navigationManager;
-        private GameState _gameState = GameState.waiting;
+        private readonly LevelLoader _levelLoader = new();
+        private GameState _gameState = GameState.Waiting;
 
         private int objectsFound = 0;
 
-        private List<Level> levels = new()
-        {
-            new Level { id = 0, image = "images/low-res-jars-background.jpg", givenTime = 60, gameObjects = new()
-            {
-                new GameObject { name = "Kitchen Knife", image = "images/pixelated-knife.png", positionX = 17, positionY = 15 },
-                new GameObject { name = "Santa Claus", image = "images/pixelated-santa.png", positionX = 40, positionY = 30 },
-                new GameObject { name = "Kerosene Lamp", image = "images/pixelated-lamp.png", positionX = 50, positionY = 10 }
-            }},
-            new Level { id = 1, image = "images/low-res-jars-background.jpg", givenTime = 40, gameObjects = new()
-            {
-                new GameObject { name = "Kitchen Knife", image = "images/pixelated-knife.png", positionX = 40, positionY = 60 },
-                new GameObject { name = "Santa Claus", image = "images/pixelated-santa.png", positionX = 50, positionY = 50 },
-                new GameObject { name = "Kerosene Lamp", image = "images/pixelated-lamp.png", positionX = 50, positionY = 10 }
-            }}
-        };
+        private List<Level> levels = [];
 
         private int currentLevelIndex;
 
@@ -36,13 +23,14 @@ namespace src.Games.FinderGame
         public FinderGameB(NavigationManager navigationManager)
         {
             _navigationManager = navigationManager;
+            levels = _levelLoader.LoadAllLevels("wwwroot/Levels/FinderGame");
             currentLevelIndex = 0;
-            defaultTime = levels[currentLevelIndex].givenTime;
+            defaultTime = levels[currentLevelIndex].GivenTime;
         }
 
         public void StartGame()
         {
-            _gameState = GameState.started;
+            _gameState = GameState.Started;
             counter = defaultTime;
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += CountDownTimer;
@@ -64,7 +52,7 @@ namespace src.Games.FinderGame
             {
                 if (counter == 0 && !CheckIfAllObjectsFound())
                 {
-                    _gameState = GameState.failed;
+                    _gameState = GameState.Failed;
                 }
                 timer.Enabled = false;
                 timer.Dispose();
@@ -73,9 +61,9 @@ namespace src.Games.FinderGame
 
         public void ObjectClicked(GameObject obj)
         {
-            if (!obj.isFound && counter > 0)
+            if (!obj.IsFound && counter > 0)
             {
-                obj.isFound = true;
+                obj.IsFound = true;
                 objectsFound++;
             }
         }
@@ -87,11 +75,11 @@ namespace src.Games.FinderGame
 
         public void ReloadLevel()
         {
-            foreach (var obj in levels[currentLevelIndex].gameObjects)
+            foreach (var obj in levels[currentLevelIndex].GameObjects)
             {
-                obj.isFound = false;
+                obj.IsFound = false;
             }
-            _gameState = GameState.waiting;
+            _gameState = GameState.Waiting;
             counter = defaultTime;
             objectsFound = 0;
         }
@@ -103,9 +91,9 @@ namespace src.Games.FinderGame
                 currentLevelIndex = 0;
                 foreach(Level level in levels)
                 {
-                    foreach(GameObject obj in level.gameObjects)
+                    foreach(GameObject obj in level.GameObjects)
                     {
-                        obj.isFound = false;
+                        obj.IsFound = false;
                     }
                 }
             }
@@ -113,14 +101,14 @@ namespace src.Games.FinderGame
             {
                 currentLevelIndex++;
             }
-            defaultTime = levels[currentLevelIndex].givenTime;
-            _gameState = GameState.waiting;
+            defaultTime = levels[currentLevelIndex].GivenTime;
+            _gameState = GameState.Waiting;
             objectsFound = 0;
         }
 
         public bool CheckIfAllObjectsFound()
         {
-            return objectsFound == levels[currentLevelIndex].gameObjects.Count;
+            return objectsFound == levels[currentLevelIndex].GameObjects.Count;
         }
 
         public GameState GetCurrentGameState()

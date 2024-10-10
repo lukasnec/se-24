@@ -5,7 +5,7 @@
 
 <PageTitle>Find Objects</PageTitle>
 
-@if (finderGame.GetCurrentGameState() == GameState.waiting)
+@if (finderGame.GetCurrentGameState() == GameState.Waiting)
 {
     <div style="position:relative; padding: 10px; text-align: center;">
         <button @onclick="StartGame"
@@ -22,19 +22,19 @@ else
     <div style="position:relative; padding: 10px;">
         <div style="display:flex; flex-direction:row">
             <!-- Background image -->
-            <img src="@finderGame.GetCurrentLevel().image" style="width:100%;" />
+            <img src="@finderGame.GetCurrentLevel().Image" style="width:100%;" />
 
             <!-- List of objects to find -->
             <div style="border: solid;
                         padding: 10px">
                 <h4>Objects to find</h4>
                 <hr />
-                @foreach (var obj in finderGame.GetCurrentLevel().gameObjects)
+                @foreach (var obj in finderGame.GetCurrentLevel().GameObjects)
                 {
-                    @if (!obj.isFound)
+                    @if (!obj.IsFound)
                     {
                         <div>
-                            @(obj.name)
+                            @(obj.Name)
                         </div>
                     }
                 }
@@ -43,15 +43,15 @@ else
 
 
         <!-- Objects to find -->
-        @foreach (var obj in finderGame.GetCurrentLevel().gameObjects)
+        @foreach (var obj in finderGame.GetCurrentLevel().GameObjects)
         {
-            <img src="@obj.image" @onclick="() => finderGame.ObjectClicked(obj)"
+            <img src="@obj.Image" @onclick="() => finderGame.ObjectClicked(obj)"
                  style="position:absolute;
-                        left:@($"{obj.positionX}%");
-                        top:@($"{obj.positionY}%");
+                        left:@($"{obj.PositionX}%");
+                        top:@($"{obj.PositionY}%");
                         width: 50px;
                         height: 50px;
-                        display:@(obj.isFound ? "none" : "block");" />
+                        display:@(obj.IsFound ? "none" : "block");" />
         }
 
         @if (finderGame.CheckIfAllObjectsFound())
@@ -76,7 +76,7 @@ else
                 </div>
             </div>
         }
-        @if (finderGame.GetCurrentGameState() == GameState.failed)
+        @if (finderGame.GetCurrentGameState() == GameState.Failed)
         {
             <!-- Pop-up to show failure with home and retry buttons -->
             <div style="position:absolute;
