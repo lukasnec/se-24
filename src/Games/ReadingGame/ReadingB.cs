@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
-namespace se_24.Components.Pages
+
+namespace se_24.src.Games.ReadingGame
 {
-    public partial class Reading : ComponentBase
+    public class ReadingB
     {
-        [Parameter]
-        public int level { get; set; } = 1;
-
+        public QuestionObject[] questions { get; set; } = new QuestionObject[100];
+        public Action? OnUIUpdate { get; set; }
+        public int level = 1;
         public int taskTimer = 60;
         public bool isStartScreen = true;
         public bool isReadingScreen = false;
@@ -15,14 +19,9 @@ namespace se_24.Components.Pages
         public bool isNextButtonEnabled = false;
         public bool isEndButtonEnabled = false;
 
-        public int questionNumber = 1;
+        public int currentQuestion = 1;
         public int numberOfQuestions = 5;
-
         public bool isButtonsDisabled = true;
-
-        public string[] answers;
-        public string[] questions;
-        public int[] correctAnswers;
 
         public string question = "";
         public string text = "";
@@ -35,39 +34,31 @@ namespace se_24.Components.Pages
         public int score = 0;
         public string correct = "";
 
-        // Function to initialize the component
-        protected override async Task OnInitializedAsync()
+
+        // Override OnInitializedAsync to load questions
+        public async Task OnInitializedAsync(int levelToLoad)
         {
-            await Task.Delay(500);
-            switch (level)
+            level = levelToLoad;
+            await LoadQuestionsAsync(levelToLoad);
+        }
+
+        // Function to load questions from JSON file
+        public async Task LoadQuestionsAsync(int levelToLoad)
+        {
+            var filePath = "questions.json";
+            if (File.Exists(filePath))
             {
-                case 1:
-                    numberOfQuestions = 3;
-                    answers = new string[numberOfQuestions * 4];
-                    questions = new string[numberOfQuestions];
-                    correctAnswers = new int[numberOfQuestions];
-                    text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis neque lacus. Nulla ultrices eget mauris a venenatis. Fusce nec egestas magna, vitae consequat quam. Morbi sodales tellus id arcu convallis cursus. Phasellus semper viverra euismod.";
-                    questions[0] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis neque lacus.";
-                    answers[0] = "A. Lorem ipsum dolor sit amet";
-                    answers[1] = "B. consectetur adipiscing elit";
-                    answers[2] = "C. Nam quis neque lacus";
-                    answers[3] = "D. Nulla facilisi";
-                    correctAnswers[0] = 1;
+                string jsonString = await File.ReadAllTextAsync(filePath);
 
-                    questions[1] = "Nulla ultrices eget mauris a venenatis. Fusce nec egestas magna, vitae consequat quam.";
-                    answers[4] = "A. Nulla ultrices eget mauris a venenatis";
-                    answers[5] = "B. Fusce nec egestas magna";
-                    answers[6] = "C. vitae consequat quam";
-                    answers[7] = "D. Curabitur mauris nisi";
-                    correctAnswers[1] = 4;
+                var levelData = JsonSerializer.Deserialize<LevelObject>(jsonString);
 
-                    questions[2] = "Morbi sodales tellus id arcu convallis cursus. Phasellus semper viverra euismod.";
-                    answers[8] = "A. Morbi sodales tellus id arcu convallis cursus";
-                    answers[9] = "B. Phasellus semper viverra euismod";
-                    answers[10] = "C. Nulla iaculis sapien sit amet vehicula consequat";
-                    answers[11] = "D. Vivamus luctus condimentum vulputate";
-                    correctAnswers[2] = 3;
-                    break;
+                if (levelData != null && levelData.level == levelToLoad)
+                {
+                    text = levelData.text;
+                    readingTime = levelData.readingTime;
+                    questions = levelData.questions;
+                    numberOfQuestions = questions.Length;
+                }
             }
         }
 
@@ -89,7 +80,7 @@ namespace se_24.Components.Pages
                 if (!isReadingScreen)
                     break;
                 taskTimer--;
-                StateHasChanged();
+                OnUIUpdate?.Invoke();
                 await Task.Delay(1000);
             }
 
@@ -109,7 +100,7 @@ namespace se_24.Components.Pages
         // Function to handle answer click
         public void AnswerClick(int answerNumber)
         {
-            if (answerNumber == correctAnswers[questionNumber - 1])
+            if (answerNumber == questions[currentQuestion - 1].correctAnswer)
             {
                 score++;
                 correct = "Correct!";
@@ -119,7 +110,7 @@ namespace se_24.Components.Pages
                 correct = "Incorrect!";
             }
 
-            if (questionNumber >= numberOfQuestions)
+            if (currentQuestion >= numberOfQuestions)
             {
                 isEndButtonEnabled = true;
             }
@@ -133,7 +124,7 @@ namespace se_24.Components.Pages
         // Function to move to the next question
         public void OnNextQuestion()
         {
-            questionNumber++;
+            currentQuestion++;
             PrepareQuestion();
             isNextButtonEnabled = false;
             isButtonsDisabled = false;
@@ -142,13 +133,13 @@ namespace se_24.Components.Pages
         // Function to prepare the question
         public void PrepareQuestion()
         {
-            if (questionNumber <= numberOfQuestions)
+            if (currentQuestion <= numberOfQuestions)
             {
-                question = questions[questionNumber - 1];
-                answer1 = answers[4 * (questionNumber - 1)];
-                answer2 = answers[4 * (questionNumber - 1) + 1];
-                answer3 = answers[4 * (questionNumber - 1) + 2];
-                answer4 = answers[4 * (questionNumber - 1) + 3];
+                question = questions[currentQuestion - 1].question;
+                answer1 = questions[currentQuestion - 1].answers[0];
+                answer2 = questions[currentQuestion - 1].answers[1];
+                answer3 = questions[currentQuestion - 1].answers[2];
+                answer4 = questions[currentQuestion - 1].answers[3];
             }
         }
 
@@ -167,7 +158,7 @@ namespace se_24.Components.Pages
             isEndButtonEnabled = false;
             score = 0;
             taskTimer = readingTime;
-            questionNumber = 1;
+            currentQuestion = 1;
         }
     }
 }
