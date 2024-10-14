@@ -3,7 +3,7 @@
 
 namespace src.Games.ReadingGame
 {
-    public class ReadingB
+    public class ReadingManager
     {
         public QuestionClass[] questions { get; set; } = new QuestionClass[100];
         public Action? OnUIUpdate { get; set; }
@@ -27,10 +27,9 @@ namespace src.Games.ReadingGame
         public string answer3 = "";
         public string answer4 = "";
 
-        public int readingTime { get; set; } = 60;
+        public int readingTime = 60;
         public int score = 0;
         public string correct = "";
-
 
         // Override OnInitializedAsync to load questions
         public async Task OnInitializedAsync(int levelToLoad)
