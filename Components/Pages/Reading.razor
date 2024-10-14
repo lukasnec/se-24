@@ -49,14 +49,14 @@ else if (readingGame.isEndScreen)
 }
 
 @code {
-    private ReadingB readingGame;
+    private ReadingManager readingGame;
     [Parameter]
     public int level { get; set; } = 1;
 
 
     protected override async Task OnInitializedAsync()
     {
-        readingGame = new ReadingB();
+        readingGame = new ReadingManager();
         readingGame.level = level; // Set the level parameter from the URL
         readingGame.OnUIUpdate = StateHasChanged;
         await readingGame.OnInitializedAsync(level); // Initialize the game logic
