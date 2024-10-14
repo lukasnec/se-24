@@ -1,6 +1,6 @@
 ﻿namespace src.Games.ReadingGame
 {
-    public class QuestionObject
+    public class QuestionClass
     {
         public string Question { get; set; } = "";
         public string[] Answers { get; set; } = new string[4];

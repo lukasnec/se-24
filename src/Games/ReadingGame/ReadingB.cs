@@ -5,7 +5,7 @@ namespace src.Games.ReadingGame
 {
     public class ReadingB
     {
-        public QuestionObject[] questions { get; set; } = new QuestionObject[100];
+        public QuestionClass[] questions { get; set; } = new QuestionClass[100];
         public Action? OnUIUpdate { get; set; }
         public int level = 1;
         public int taskTimer = 60;
@@ -63,7 +63,7 @@ namespace src.Games.ReadingGame
                                 text = levelElement.GetProperty("Text").GetString();
 
                                 var questionsNode = levelElement.GetProperty("Questions");
-                                questions = JsonSerializer.Deserialize<QuestionObject[]>(questionsNode.GetRawText());
+                                questions = JsonSerializer.Deserialize<QuestionClass[]>(questionsNode.GetRawText());
 
                                 if (questions != null)
                                 {
@@ -77,9 +77,6 @@ namespace src.Games.ReadingGame
                 }
             }
         }
-
-
-
 
         // Function to start the reading level
         public async Task OnStartClick()

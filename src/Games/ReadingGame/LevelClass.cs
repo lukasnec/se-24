@@ -1,10 +1,10 @@
 ﻿namespace src.Games.ReadingGame
 {
-    public class LevelObject
+    public class LevelClass
     {
         public int Level { get; set; }
         public string Text { get; set; } = "";
         public int ReadingTime { get; set; } = 60;
-        public QuestionObject[] Questions { get; set; } = new QuestionObject[0];
+        public QuestionClass[] Questions { get; set; } = new QuestionClass[0];
     }
 }
