@@ -1,4 +1,4 @@
-﻿namespace src.Games
+﻿namespace src.Enums
 {
     public enum GameState
     {

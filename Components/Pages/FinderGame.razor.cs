@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using src.Games.FinderGame;
-using src.Games;
+using src.Enums;
+using src.Shared;
 
 namespace se_24.Components.Pages;
 
