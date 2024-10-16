@@ -8,12 +8,14 @@ namespace se_24.Components.Pages;
 public partial class FinderGame
 {
     [Inject] private NavigationManager NavigationManager { get; set; }
-    
+
+    private string selectedDifficulty = string.Empty;
     private GameState gameState = GameState.Waiting;
     private int objectsFound = 0;
 
     private readonly LevelLoader _levelLoader = new();
     private List<Level> levels = [];
+    private List<Level> currentLevels = [];
     private int currentLevelIndex;
 
     private static System.Timers.Timer timer;
@@ -24,7 +26,13 @@ public partial class FinderGame
     {
         levels = _levelLoader.LoadAllLevels("wwwroot/Levels/FinderGame");
         currentLevelIndex = 0;
-        defaultTime = levels[currentLevelIndex].GivenTime;
+    }
+
+    public void SetDifficulty(string difficulty)
+    {
+        selectedDifficulty = difficulty;
+        currentLevels = levels.Where(level => level.Difficulty == difficulty).ToList();
+        defaultTime = currentLevels[currentLevelIndex].GivenTime;
     }
 
     public void StartGame()
@@ -38,7 +46,7 @@ public partial class FinderGame
 
     public Level GetCurrentLevel()
     {
-        return levels[currentLevelIndex];
+        return currentLevels[currentLevelIndex];
     }
 
     public void CountDownTimer(object source, System.Timers.ElapsedEventArgs e)
@@ -75,7 +83,7 @@ public partial class FinderGame
 
     public void ReloadLevel()
     {
-        foreach (var obj in levels[currentLevelIndex].GameObjects)
+        foreach (var obj in currentLevels[currentLevelIndex].GameObjects)
         {
             obj.IsFound = false;
         }
@@ -86,10 +94,10 @@ public partial class FinderGame
 
     public void LoadNextLevel()
     {
-        if (currentLevelIndex == levels.Count - 1)
+        if (currentLevelIndex == currentLevels.Count - 1)
         {
             currentLevelIndex = 0;
-            foreach (Level level in levels)
+            foreach (Level level in currentLevels)
             {
                 foreach (GameObject obj in level.GameObjects)
                 {
@@ -101,14 +109,14 @@ public partial class FinderGame
         {
             currentLevelIndex++;
         }
-        defaultTime = levels[currentLevelIndex].GivenTime;
+        defaultTime = currentLevels[currentLevelIndex].GivenTime;
         gameState = GameState.Waiting;
         objectsFound = 0;
     }
 
     public bool CheckIfAllObjectsFound()
     {
-        return objectsFound == levels[currentLevelIndex].GameObjects.Count;
+        return objectsFound == currentLevels[currentLevelIndex].GameObjects.Count;
     }
 
     public GameState GetCurrentGameState()
