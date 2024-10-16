@@ -41,6 +41,11 @@
           "Question": "What is the capital of Portugal?",
           "Answers": [ "Lisbon", "Porto", "Braga", "Faro" ],
           "CorrectAnswer": 1
+        },
+        {
+          "Question": "What is the capital of Austria?",
+          "Answers": [ "Lisbon", "Porto", "Vienna", "Faro" ],
+          "CorrectAnswer": 3
         }
       ]
     }

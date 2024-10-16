@@ -29,6 +29,7 @@ namespace Components.Pages
         public string answer4 = "";
 
         public int readingTime = 60;
+        public double percentage = 0;
         public int score = 0;
         public string correct = "";
 
@@ -163,6 +164,7 @@ namespace Components.Pages
         // Function to end the level
         public void OnEndLevel()
         {
+            percentage = Math.Round(questions.GetCorrectPercentage(score),2);
             isQuestionsScreen = false;
             isEndScreen = true;
         }
