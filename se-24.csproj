@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Images\NewFolder\" />
     <Folder Include="wwwroot\Levels\FinderGame\" />
   </ItemGroup>
 
