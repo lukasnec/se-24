@@ -1,0 +1,28 @@
+{
+  "Id": 1,
+  "Image": "images/low-res-jars-background.jpg",
+  "GivenTime": 40,
+  "GameObjects": [
+    {
+      "Name": "Kitchen Knife",
+      "Image": "images/pixelated-knife.png",
+      "PositionX": 40,
+      "PositionY": 60,
+      "IsFound": false
+    },
+    {
+      "Name": "Santa Claus",
+      "Image": "images/pixelated-santa.png",
+      "PositionX": 50,
+      "PositionY": 50,
+      "IsFound": false
+    },
+    {
+      "Name": "Kerosene Lamp",
+      "Image": "images/pixelated-lamp.png",
+      "PositionX": 50,
+      "PositionY": 10,
+      "IsFound": false
+    }
+  ]
+}

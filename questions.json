@@ -1,0 +1,48 @@
+{
+  "Levels": [
+    {
+      "Level": 1,
+      "ReadingTime": 60,
+      "Text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus hendrerit leo nec mollis varius...",
+      "Questions": [
+        {
+          "Question": "What is the capital of France?",
+          "Answers": [ "Paris", "London", "Berlin", "Madrid" ],
+          "CorrectAnswer": 1
+        },
+        {
+          "Question": "What is the capital of Germany?",
+          "Answers": [ "Paris", "London", "Berlin", "Madrid" ],
+          "CorrectAnswer": 3
+        },
+        {
+          "Question": "What is the capital of Spain?",
+          "Answers": [ "Paris", "London", "Berlin", "Madrid" ],
+          "CorrectAnswer": 4
+        },
+        {
+          "Question": "What is the capital of England?",
+          "Answers": [ "Paris", "London", "Berlin", "Madrid" ],
+          "CorrectAnswer": 2
+        }
+      ]
+    },
+    {
+      "Level": 2,
+      "ReadingTime": 75,
+      "Text": "Another text for level 2 goes here...",
+      "Questions": [
+        {
+          "Question": "What is the capital of Italy?",
+          "Answers": [ "Rome", "Milan", "Naples", "Turin" ],
+          "CorrectAnswer": 1
+        },
+        {
+          "Question": "What is the capital of Portugal?",
+          "Answers": [ "Lisbon", "Porto", "Braga", "Faro" ],
+          "CorrectAnswer": 1
+        }
+      ]
+    }
+  ]
+}
