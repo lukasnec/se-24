@@ -44,10 +44,8 @@ namespace Components.Pages
         }
 
         // Function to load questions from JSON file
-        public async Task LoadQuestionsAsync(int levelToLoad)
+        public async Task LoadQuestionsAsync(int levelToLoad, string filePath = "questions.json")
         {
-            var filePath = "questions.json";
-
             if (File.Exists(filePath))
             {
                 using (FileStream fs = File.OpenRead(filePath))
@@ -90,7 +88,7 @@ namespace Components.Pages
         }
 
         // Function to start the timer
-        public async Task StartTimer(int readingTime)
+        public async Task StartTimer(int readingTime = 60)
         {
             taskTimer = readingTime;
 
