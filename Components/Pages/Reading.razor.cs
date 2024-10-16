@@ -1,9 +1,10 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json;
+using src.Games.ReadingGame;
 
-
-namespace src.Games.ReadingGame
+namespace Components.Pages
 {
-    public class ReadingManager
+    public partial class Reading
     {
         public QuestionClass[] questions { get; set; } = new QuestionClass[100];
         public Action? OnUIUpdate { get; set; }
@@ -31,11 +32,15 @@ namespace src.Games.ReadingGame
         public int score = 0;
         public string correct = "";
 
-        // Override OnInitializedAsync to load questions
-        public async Task OnInitializedAsync(int levelToLoad)
+        [Parameter]
+        public int Level { get; set; } = 1;
+
+        // Function to initialize the component
+        protected override async Task OnInitializedAsync()
         {
-            level = levelToLoad;
-            await LoadQuestionsAsync(levelToLoad);
+            level = Level;
+            OnUIUpdate = StateHasChanged;
+            await LoadQuestionsAsync(level);
         }
 
         // Function to load questions from JSON file
@@ -58,7 +63,6 @@ namespace src.Games.ReadingGame
                             if (levelElement.GetProperty("Level").GetInt32() == levelToLoad)
                             {
                                 readingTime = levelElement.GetProperty("ReadingTime").GetInt32();
-
                                 text = levelElement.GetProperty("Text").GetString();
 
                                 var questionsNode = levelElement.GetProperty("Questions");
@@ -136,7 +140,6 @@ namespace src.Games.ReadingGame
             isButtonsDisabled = true;
         }
 
-
         // Function to move to the next question
         public void OnNextQuestion()
         {
@@ -178,3 +181,4 @@ namespace src.Games.ReadingGame
         }
     }
 }
+

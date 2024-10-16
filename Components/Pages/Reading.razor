@@ -1,64 +1,49 @@
-@page "/reading/{level:int}/"
+﻿@page "/reading/{level:int}/"
 @rendermode InteractiveServer
-@using src.Games.ReadingGame
+@namespace Components.Pages
 
 <PageTitle>Reading</PageTitle>
 
-<h1>Reading Level @readingGame.level</h1>
+<h1>Reading Level @level</h1>
 
-@if (readingGame.isStartScreen)
+@if (isStartScreen)
 {
     <p>Click the button below to start the reading level.</p>
-    <button @onclick="readingGame.OnStartClick">Start Reading Level</button>
+    <button @onclick="OnStartClick">Start Reading Level</button>
 }
-else if (readingGame.isReadingScreen)
+else if (isReadingScreen)
 {
-    <p role="timer">Time: @readingGame.taskTimer</p>
-    <p>@readingGame.text</p>
+    <p role="timer">Time: @taskTimer</p>
+    <p>@text</p>
 
-    <button @onclick="readingGame.OnReadingFinished">I've already read it!</button>
+    <button @onclick="OnReadingFinished">I've already read it!</button>
 }
-else if (readingGame.isQuestionsScreen)
+else if (isQuestionsScreen)
 {
-    <h2>@readingGame.currentQuestion Question! Please select the correct answer.</h2>
-    <p>@readingGame.question</p>
+    <h2>@currentQuestion Question! Please select the correct answer.</h2>
+    <p>@question</p>
 
-    <button @onclick="() => readingGame.AnswerClick(1)" disabled="@readingGame.isButtonsDisabled">@readingGame.answer1</button>
-    <button @onclick="() => readingGame.AnswerClick(2)" disabled="@readingGame.isButtonsDisabled">@readingGame.answer2</button>
-    <button @onclick="() => readingGame.AnswerClick(3)" disabled="@readingGame.isButtonsDisabled">@readingGame.answer3</button>
-    <button @onclick="() => readingGame.AnswerClick(4)" disabled="@readingGame.isButtonsDisabled">@readingGame.answer4</button>
+    <button @onclick="() => AnswerClick(1)" disabled="@isButtonsDisabled">@answer1</button>
+    <button @onclick="() => AnswerClick(2)" disabled="@isButtonsDisabled">@answer2</button>
+    <button @onclick="() => AnswerClick(3)" disabled="@isButtonsDisabled">@answer3</button>
+    <button @onclick="() => AnswerClick(4)" disabled="@isButtonsDisabled">@answer4</button>
 
-    @if (readingGame.isNextButtonEnabled || readingGame.isEndButtonEnabled)
+    @if (isNextButtonEnabled || isEndButtonEnabled)
     {
-        <p>Your answer: @readingGame.correct</p>
-        if (readingGame.isNextButtonEnabled)
+        <p>Your answer: @correct</p>
+        if (isNextButtonEnabled)
         {
-            <button @onclick="readingGame.OnNextQuestion">Next Question</button>
+            <button @onclick="OnNextQuestion">Next Question</button>
         }
-        else if (readingGame.isEndButtonEnabled)
+        else if (isEndButtonEnabled)
         {
-            <button @onclick="readingGame.OnEndLevel">End Level</button>
+            <button @onclick="OnEndLevel">End Level</button>
         }
     }
 }
-else if (readingGame.isEndScreen)
+else if (isEndScreen)
 {
     <p>Game Over!</p>
-    <p>Your score is: @readingGame.score</p>
-    <button @onclick="readingGame.OnRestartClick">Restart</button>
-}
-
-@code {
-    private ReadingManager readingGame;
-    [Parameter]
-    public int level { get; set; } = 1;
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        readingGame = new ReadingManager();
-        readingGame.level = level; // Set the level parameter from the URL
-        readingGame.OnUIUpdate = StateHasChanged;
-        await readingGame.OnInitializedAsync(level); // Initialize the game logic
-    }
+    <p>Your score is: @score</p>
+    <button @onclick="OnRestartClick">Restart</button>
 }
