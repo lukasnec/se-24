@@ -1,14 +1,15 @@
 @page "/blockgame"
 @inject NavigationManager Navigation
 @using src.Games.BlockGame
+@using src.Games
 
 <h3>Block Game</h3>
 
 <div class="grid">
-    <div id="square1" class="square @(IsSquareLit(1) ? "light" : "")" @onclick="() => OnPlayerClick(1)">1</div>
-    <div id="square2" class="square @(IsSquareLit(2) ? "light" : "")" @onclick="() => OnPlayerClick(2)">2</div>
-    <div id="square3" class="square @(IsSquareLit(3) ? "light" : "")" @onclick="() => OnPlayerClick(3)">3</div>
-    <div id="square4" class="square @(IsSquareLit(4) ? "light" : "")" @onclick="() => OnPlayerClick(4)">4</div>
+    <div id="square1" class="square @(IsSquareLit(1) ? "light" : "") @(IsSquareClicked(1) ? "pressed" : "")" @onclick="() => OnPlayerClick(1)">1</div>
+    <div id="square2" class="square @(IsSquareLit(2) ? "light" : "") @(IsSquareClicked(2) ? "pressed" : "")" @onclick="() => OnPlayerClick(2)">2</div>
+    <div id="square3" class="square @(IsSquareLit(3) ? "light" : "") @(IsSquareClicked(3) ? "pressed" : "")" @onclick="() => OnPlayerClick(3)">3</div>
+    <div id="square4" class="square @(IsSquareLit(4) ? "light" : "") @(IsSquareClicked(4) ? "pressed" : "")" @onclick="() => OnPlayerClick(4)">4</div>
 </div>
 
 <button @onclick="StartNewRound">Start New Round</button>
@@ -19,12 +20,21 @@
     private string statusMessage = "Press 'Start New Round' to begin."; // Game status message
     private bool isAnimatingSequence = false; // Flag to block player input during sequence animation
     private int? activeSquare = null; // Holds the ID of the currently lit square
+    private int? clickedSquare = null; // Holds the ID of the square that was last clicked
     private int currentPlayerStep = 0; // Tracks player's current progress in repeating the sequence
 
     // Called when the player clicks on a square
     private async void OnPlayerClick(int squareId)
     {
         if (isAnimatingSequence) return; // Ignore clicks during the sequence animation
+
+        clickedSquare = squareId; // Highlight the clicked square in red
+        StateHasChanged(); // Update UI to reflect the click
+
+        // Remove red highlight after a short delay
+        await Task.Delay(500);
+        clickedSquare = null;
+        StateHasChanged(); // Update UI to remove the red highlight
 
         // Validate the player's input at the current step
         if (blockGame.CheckPlayerInput(squareId))
@@ -82,6 +92,12 @@
     {
         return activeSquare == squareId;
     }
+
+    // Utility to determine if a square should be highlighted as clicked
+    private bool IsSquareClicked(int squareId)
+    {
+        return clickedSquare == squareId;
+    }
 }
 
 <style>
@@ -107,6 +123,10 @@
 
     .light {
         background-color: yellow;
+    }
+
+    .pressed {
+        background-color: red;
     }
 
     button {
