@@ -6,7 +6,7 @@ namespace Components.Pages
 {
     public partial class Reading
     {
-        public QuestionClass[] questions { get; set; } = new QuestionClass[100];
+        public ReadingQuestion[] questions { get; set; } = new ReadingQuestion[100];
         public Action? OnUIUpdate { get; set; }
         public int level = 1;
         public int taskTimer = 60;
@@ -65,7 +65,7 @@ namespace Components.Pages
                                 text = levelElement.GetProperty("Text").GetString();
 
                                 var questionsNode = levelElement.GetProperty("Questions");
-                                questions = JsonSerializer.Deserialize<QuestionClass[]>(questionsNode.GetRawText());
+                                questions = JsonSerializer.Deserialize<ReadingQuestion[]>(questionsNode.GetRawText());
 
                                 if (questions != null)
                                 {
