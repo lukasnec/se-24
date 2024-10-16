@@ -1,4 +1,4 @@
-﻿namespace src.Games
+﻿namespace src.Shared
 {
     public class GameObject
     {

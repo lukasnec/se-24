@@ -1,4 +1,6 @@
-﻿namespace src.Games.FinderGame
+﻿using src.Shared;
+
+namespace src.Games.FinderGame
 {
     public class Level
     {
