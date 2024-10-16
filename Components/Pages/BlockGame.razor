@@ -1,17 +1,35 @@
 @page "/blockgame"
-@inject NavigationManager Navigation
+@using src.Enums
 
 <h3>Block Game</h3>
 
+<!-- Display game instructions and status -->
+<p>@statusMessage</p>
+
+<!-- Display the counter for successful sequences -->
+<p>Correct Sequences: @correctSequenceCount</p>
+
+<!-- Grid of clickable squares -->
 <div class="grid">
-    <div id="square1" class="square @(IsSquareLit(1) ? "light" : "") @(IsSquareClicked(1) ? "pressed" : "")" @onclick="() => OnPlayerClick(1)">1</div>
-    <div id="square2" class="square @(IsSquareLit(2) ? "light" : "") @(IsSquareClicked(2) ? "pressed" : "")" @onclick="() => OnPlayerClick(2)">2</div>
-    <div id="square3" class="square @(IsSquareLit(3) ? "light" : "") @(IsSquareClicked(3) ? "pressed" : "")" @onclick="() => OnPlayerClick(3)">3</div>
-    <div id="square4" class="square @(IsSquareLit(4) ? "light" : "") @(IsSquareClicked(4) ? "pressed" : "")" @onclick="() => OnPlayerClick(4)">4</div>
+    <div id="square1" class="square @(IsSquareLit(1) ? "light" : "") @(IsSquareClicked(1) ? "pressed" : "")" @onclick="() => OnPlayerClick(1)" disabled="@DisableSquareClick()">1</div>
+    <div id="square2" class="square @(IsSquareLit(2) ? "light" : "") @(IsSquareClicked(2) ? "pressed" : "")" @onclick="() => OnPlayerClick(2)" disabled="@DisableSquareClick()">2</div>
+    <div id="square3" class="square @(IsSquareLit(3) ? "light" : "") @(IsSquareClicked(3) ? "pressed" : "")" @onclick="() => OnPlayerClick(3)" disabled="@DisableSquareClick()">3</div>
+    <div id="square4" class="square @(IsSquareLit(4) ? "light" : "") @(IsSquareClicked(4) ? "pressed" : "")" @onclick="() => OnPlayerClick(4)" disabled="@DisableSquareClick()">4</div>
 </div>
 
-<button @onclick="StartNewRound">Start New Round</button>
-<p>@statusMessage</p>
+<!-- Start/Reset Buttons based on GameState -->
+@if (CurrentGameState == GameState.Waiting)
+{
+    <button @onclick="StartGame">Start New Round</button>
+}
+else if (CurrentGameState == GameState.Finished || CurrentGameState == GameState.Failed)
+{
+    <button @onclick="ResetGame">Reset Game</button>
+}
+else if (CurrentGameState == GameState.Started)
+{
+    <button @onclick="EndGame">End Game</button>
+}
 
 <style>
     .grid {
@@ -47,5 +65,10 @@
         margin: 20px auto;
         padding: 10px 20px;
         font-size: 1rem;
+    }
+
+    /* Disable button click when GameState is not Started */
+    .square:disabled {
+        pointer-events: none;
     }
 </style>

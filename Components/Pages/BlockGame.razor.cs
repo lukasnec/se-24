@@ -1,123 +1,138 @@
 using Microsoft.AspNetCore.Components;
+using src.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace se_24.Components.Pages // Adjust the namespace according to your project structure
+namespace se_24.Components.Pages
 {
     public partial class BlockGame : ComponentBase
     {
-        private List<int> Sequence { get; set; } = new List<int>(); // Stores the sequence of squares
-        private int CurrentStep { get; set; } = 0; // Tracks the current step in the sequence
-        private string statusMessage = "Press 'Start New Round' to begin."; // Status message shown to the player
-        private bool isAnimatingSequence = false; // Prevent player input during animation
-        private int? activeSquare = null; // Holds the ID of the lit square
-        private int? clickedSquare = null; // Holds the ID of the square the player clicked on
+        private List<int> Sequence { get; set; } = new List<int>();
+        private int CurrentStep { get; set; } = 0;
+        private string statusMessage = "Press 'Start New Round' to begin.";
+        private bool isAnimatingSequence = false;
+        private int? activeSquare = null;
+        private int? clickedSquare = null;
 
-        // Called when the player clicks on a square
+        // GameState to track the current state of the game
+        private GameState CurrentGameState { get; set; } = GameState.Waiting;
+
+        // Counter to track successful sequences
+        private int correctSequenceCount = 0;
+
+        [Inject] private NavigationManager Navigation { get; set; }
+
+        // Timer field for managing game timing
+        private System.Timers.Timer? timer;
+
+        public void StartGame()
+        {
+            CurrentGameState = GameState.Started;
+            correctSequenceCount = 0;  // Reset the counter when starting a new game
+            StartNewRound();
+        }
+
+        // Player clicks a square
         private async void OnPlayerClick(int squareId)
         {
-            if (isAnimatingSequence) return; // Ignore clicks during sequence animation
+            if (isAnimatingSequence || CurrentGameState != GameState.Started) return;
 
-            clickedSquare = squareId; // Set the clicked square
-            StateHasChanged(); // Trigger UI update to reflect the click
+            clickedSquare = squareId;
+            StateHasChanged(); // Refresh the UI to show the clicked square
 
-            await Task.Delay(500); // Delay to show the square press
-            clickedSquare = null; // Reset clicked square after delay
-            StateHasChanged(); // Update UI to remove the highlight
+            await Task.Delay(500);
+            clickedSquare = null;
+            StateHasChanged();
 
-            if (CheckPlayerInput(squareId)) // Check if the input is correct
+            if (CheckPlayerInput(squareId)) // Check if player's input is correct
             {
-                CurrentStep++; // Increment the player's progress
-
-                if (IsRoundComplete()) // Check if the round is complete
+                CurrentStep++;
+                if (IsRoundComplete()) // If player completes the sequence
                 {
                     statusMessage = "Correct! Starting next round...";
-                    await Task.Delay(1000); // Delay before starting next round
+                    correctSequenceCount++; // Increment the counter
+                    CurrentGameState = GameState.Finished;
+                    await Task.Delay(1000);
                     ResetRound();
                     StartNewRound();
                 }
             }
             else
             {
-                // Wrong input, reset the game
                 statusMessage = "Wrong! Game over. Press 'Start New Round' to try again.";
-                ResetGame(); // Reset game state
+                CurrentGameState = GameState.Failed;
+                ResetGame();
             }
         }
 
         // Start a new round
         private async void StartNewRound()
         {
-            isAnimatingSequence = true; // Disable player input during animation
+            isAnimatingSequence = true;
             statusMessage = "Watch the sequence...";
-            AddRandomSquare(); // Add a new random square to the sequence
+            CurrentGameState = GameState.Started;
+            AddRandomSquare();
 
-            foreach (var squareId in Sequence.ToList()) // Show the sequence
+            foreach (var squareId in Sequence.ToList())
             {
-                activeSquare = squareId; // Highlight current square
-                StateHasChanged(); // Update UI
+                activeSquare = squareId;
+                StateHasChanged();
 
-                await Task.Delay(800); // Keep square lit for 800ms
-                activeSquare = null; // Turn off the light
-                StateHasChanged(); // Update UI
-                await Task.Delay(300); // 300ms before lighting next square
+                await Task.Delay(800);
+                activeSquare = null;
+                StateHasChanged();
+                await Task.Delay(300);
             }
 
             statusMessage = "Your turn! Repeat the sequence.";
-            isAnimatingSequence = false; // Re-enable player input
-            CurrentStep = 0; // Reset player's step for new round
+            isAnimatingSequence = false;
+            CurrentStep = 0;
         }
 
-        // Add a random square (1-4) to the sequence
+        // Add a random square to the sequence
         private void AddRandomSquare()
         {
             var random = new Random();
-            Sequence.Add(random.Next(1, 5)); // Random number between 1 and 4
+            Sequence.Add(random.Next(1, 5));
         }
 
         // Check if the player's input matches the current step in the sequence
         private bool CheckPlayerInput(int input)
         {
-            if (CurrentStep >= Sequence.Count || CurrentStep < 0)
-            {
-                return false; // Invalid step, fail
-            }
-
-            return Sequence[CurrentStep] == input; // Compare input with the expected step
+            if (CurrentStep >= Sequence.Count || CurrentStep < 0) return false;
+            return Sequence[CurrentStep] == input;
         }
 
         // Check if the player has completed the current sequence
-        private bool IsRoundComplete()
+        private bool IsRoundComplete() => CurrentStep >= Sequence.Count;
+
+        // End the game (called by the End Game button)
+        public void EndGame()
         {
-            return CurrentStep >= Sequence.Count; // Player completed the sequence
+            statusMessage = "Game ended by the player.";
+            CurrentGameState = GameState.Finished;
         }
 
-        // Reset the round, prepare for the next one
         private void ResetRound()
         {
-            CurrentStep = 0; // Reset player's progress
+            CurrentStep = 0;
+            CurrentGameState = GameState.Waiting;
         }
 
-        // Reset the game entirely
         private void ResetGame()
         {
-            Sequence.Clear(); // Clear the sequence
-            CurrentStep = 0; // Reset progress
-            isAnimatingSequence = false; // Allow input
+            Sequence.Clear();
+            CurrentStep = 0;
+            isAnimatingSequence = false;
+            CurrentGameState = GameState.Waiting;
         }
 
-        // Utility to check if a square is lit
-        private bool IsSquareLit(int squareId)
-        {
-            return activeSquare == squareId; // Return if the square is the one currently lit
-        }
+        private bool IsSquareLit(int squareId) => activeSquare == squareId;
 
-        // Utility to check if a square is clicked
-        private bool IsSquareClicked(int squareId)
-        {
-            return clickedSquare == squareId; // Return if the square was clicked
-        }
+        private bool IsSquareClicked(int squareId) => clickedSquare == squareId;
+
+        private bool DisableSquareClick() => CurrentGameState != GameState.Started;
     }
 }
