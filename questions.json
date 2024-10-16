@@ -3,26 +3,56 @@
     {
       "Level": 1,
       "ReadingTime": 60,
-      "Text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus hendrerit leo nec mollis varius...",
+      "Text": "The concept of sustainability has gained significant attention in recent years, particularly as global challenges such as climate change and resource depletion become increasingly evident. Sustainability refers to meeting our own needs without compromising the ability of future generations to meet their own. This principle is crucial in various fields, including agriculture, energy, and waste management. In agriculture, for instance, sustainable practices involve crop rotation, organic farming, and reduced chemical use to maintain soil health and biodiversity. In energy, transitioning to renewable sources such as solar and wind power helps reduce greenhouse gas emissions and reliance on fossil fuels. Furthermore, waste management strategies that emphasize recycling and composting play a vital role in promoting sustainability by minimizing waste and conserving resources. To achieve sustainability, collaboration among governments, businesses, and individuals is essential. Everyone has a part to play, from adopting greener habits to supporting policies that encourage sustainable practices. By working together, we can create a more sustainable future for our planet.",
       "Questions": [
         {
-          "Question": "What is the capital of France?",
-          "Answers": [ "Paris", "London", "Berlin", "Madrid" ],
-          "CorrectAnswer": 1
+          "Question": "What is the primary focus of the text?",
+          "Answers": [
+            "The importance of renewable energy.",
+            "The concept of sustainability.",
+            "The challenges of modern agriculture.",
+            "The significance of waste management."
+          ],
+          "CorrectAnswer": 2
         },
         {
-          "Question": "What is the capital of Germany?",
-          "Answers": [ "Paris", "London", "Berlin", "Madrid" ],
+          "Question": "Which sustainable practice is mentioned in agriculture?",
+          "Answers": [
+            "Using chemical fertilizers.",
+            "Monoculture farming.",
+            "Crop rotation.",
+            "Depleting soil nutrients."
+          ],
           "CorrectAnswer": 3
         },
         {
-          "Question": "What is the capital of Spain?",
-          "Answers": [ "Paris", "London", "Berlin", "Madrid" ],
-          "CorrectAnswer": 4
+          "Question": "How can individuals contribute to sustainability according to the text?",
+          "Answers": [
+            "By ignoring environmental issues.",
+            "By increasing waste production.",
+            "By adopting greener habits.",
+            "By only focusing on personal gain."
+          ],
+          "CorrectAnswer": 3
         },
         {
-          "Question": "What is the capital of England?",
-          "Answers": [ "Paris", "London", "Berlin", "Madrid" ],
+          "Question": "What role does renewable energy play in sustainability?",
+          "Answers": [
+            "It increases greenhouse gas emissions.",
+            "It is less efficient than fossil fuels.",
+            "It reduces reliance on fossil fuels.",
+            "It promotes resource depletion."
+          ],
+          "CorrectAnswer": 3
+        },
+        {
+          "Question": "Why is collaboration essential for achieving sustainability?",
+          "Answers": [
+            "Only businesses should take responsibility.",
+            "It ensures everyone contributes to the solution.",
+            "Governments can solve everything alone.",
+            "Individuals should avoid involvement."
+          ],
           "CorrectAnswer": 2
         }
       ]
@@ -30,22 +60,114 @@
     {
       "Level": 2,
       "ReadingTime": 75,
-      "Text": "Another text for level 2 goes here...",
+      "Text": "In a world where technology is rapidly evolving, the relationship between humans and machines is becoming increasingly complex. We find ourselves at a crossroads where the conveniences offered by advanced technology come with a host of ethical considerations. The advent of artificial intelligence, for example, has sparked debates around privacy, job displacement, and the potential for bias in decision-making processes. As we integrate these technologies into our daily lives, it is essential to approach their use with a critical eye. Furthermore, the reliance on technology has altered the way we communicate, often leading to misunderstandings and a decline in face-to-face interactions. While technology has the power to connect us, it can also isolate us if we are not careful. The balance lies in utilizing technology to enhance our lives while being mindful of its potential drawbacks. This requires an awareness of our digital footprints and the implications they carry. As we move forward, education becomes paramount in ensuring that future generations are equipped to navigate this intricate landscape. It is crucial that we foster a culture of responsible technology use, where individuals are empowered to make informed choices about the tools they adopt. By prioritizing ethical considerations alongside technological advancement, we can pave the way for a more harmonious coexistence with machines.",
       "Questions": [
         {
-          "Question": "What is the capital of Italy?",
-          "Answers": [ "Rome", "Milan", "Naples", "Turin" ],
-          "CorrectAnswer": 1
+          "Question": "What central theme is presented in the text?",
+          "Answers": [
+            "The evolution of technology.",
+            "The complexities of human-machine interaction.",
+            "The benefits of artificial intelligence.",
+            "The history of communication."
+          ],
+          "CorrectAnswer": 2
         },
         {
-          "Question": "What is the capital of Portugal?",
-          "Answers": [ "Lisbon", "Porto", "Braga", "Faro" ],
-          "CorrectAnswer": 1
+          "Question": "Which ethical concern regarding technology is discussed?",
+          "Answers": [
+            "The simplicity of technology.",
+            "Job displacement and privacy issues.",
+            "The cost of technology.",
+            "The ease of access to information."
+          ],
+          "CorrectAnswer": 2
         },
         {
-          "Question": "What is the capital of Austria?",
-          "Answers": [ "Lisbon", "Porto", "Vienna", "Faro" ],
+          "Question": "What change in communication is mentioned in the text?",
+          "Answers": [
+            "Improved face-to-face communication.",
+            "The eradication of digital communication.",
+            "Increased misunderstandings due to reliance on technology.",
+            "Decreased reliance on technology."
+          ],
           "CorrectAnswer": 3
+        },
+        {
+          "Question": "How does the author suggest future generations should prepare for technology?",
+          "Answers": [
+            "By receiving proper education on technology usage.",
+            "By avoiding all forms of technology.",
+            "By relying solely on traditional practices.",
+            "By ignoring ethical considerations."
+          ],
+          "CorrectAnswer": 1
+        },
+        {
+          "Question": "What balance does the author emphasize regarding technology?",
+          "Answers": [
+            "Complete dependence on technology.",
+            "Utilizing technology without reflection.",
+            "A balanced approach to enhance life while recognizing drawbacks.",
+            "Avoiding technology entirely."
+          ],
+          "CorrectAnswer": 3
+        }
+      ]
+    },
+    {
+      "Level": 3,
+      "ReadingTime": 90,
+      "Text": "Climate change is one of the most pressing issues facing our planet today. As global temperatures continue to rise, we witness increasingly severe weather patterns, including hurricanes, floods, and droughts. These changes not only threaten wildlife and natural habitats but also endanger human lives and economies. The scientific consensus is clear: human activities, particularly the burning of fossil fuels and deforestation, are the primary drivers of climate change. In response, various nations are implementing policies to reduce carbon emissions and transition to renewable energy sources. However, progress is uneven, with some countries lagging in their commitments. It is essential for individuals and communities to take action as well, whether through advocating for sustainable practices or reducing personal carbon footprints. Awareness campaigns and education play a critical role in fostering a culture of sustainability. As we navigate this crisis, collaboration across borders and sectors will be vital. Each of us has a responsibility to contribute to the solution, ensuring a healthier planet for future generations. By making informed choices and supporting green initiatives, we can work together to combat climate change and its impacts effectively.",
+      "Questions": [
+        {
+          "Question": "What is the primary topic addressed in the text?",
+          "Answers": [
+            "The economic implications of climate change.",
+            "The effects of technology on climate.",
+            "Climate change and its global impact.",
+            "The history of environmental policies."
+          ],
+          "CorrectAnswer": 3
+        },
+        {
+          "Question": "What are some effects of climate change mentioned?",
+          "Answers": [
+            "Minimal impact on wildlife.",
+            "Economic stability and growth.",
+            "Severe weather patterns and habitat loss.",
+            "Improved biodiversity."
+          ],
+          "CorrectAnswer": 3
+        },
+        {
+          "Question": "What are identified as major contributors to climate change?",
+          "Answers": [
+            "Using solar energy.",
+            "Recycling and conservation efforts.",
+            "Burning fossil fuels and deforestation.",
+            "Planting more trees."
+          ],
+          "CorrectAnswer": 3
+        },
+        {
+          "Question": "What does the author highlight as crucial for addressing climate change?",
+          "Answers": [
+            "Individual apathy.",
+            "Ignoring scientific recommendations.",
+            "Collaboration across borders and sectors.",
+            "Complete reliance on technology."
+          ],
+          "CorrectAnswer": 3
+        },
+        {
+          "Question": "How can individuals help combat climate change?",
+          "Answers": [
+            "By advocating for sustainable practices.",
+            "By ignoring the issue.",
+            "By relying solely on government action.",
+            "By continuing harmful practices."
+          ],
+          "CorrectAnswer": 1
         }
       ]
     }
