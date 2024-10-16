@@ -1,7 +1,5 @@
 @page "/blockgame"
 @inject NavigationManager Navigation
-@using src.Games.BlockGame
-@using src.Games
 
 <h3>Block Game</h3>
 
@@ -14,91 +12,6 @@
 
 <button @onclick="StartNewRound">Start New Round</button>
 <p>@statusMessage</p>
-
-@code {
-    private Game blockGame = new Game(); // Game instance to manage the logic
-    private string statusMessage = "Press 'Start New Round' to begin."; // Game status message
-    private bool isAnimatingSequence = false; // Flag to block player input during sequence animation
-    private int? activeSquare = null; // Holds the ID of the currently lit square
-    private int? clickedSquare = null; // Holds the ID of the square that was last clicked
-    private int currentPlayerStep = 0; // Tracks player's current progress in repeating the sequence
-
-    // Called when the player clicks on a square
-    private async void OnPlayerClick(int squareId)
-    {
-        if (isAnimatingSequence) return; // Ignore clicks during the sequence animation
-
-        clickedSquare = squareId; // Highlight the clicked square in red
-        StateHasChanged(); // Update UI to reflect the click
-
-        // Remove red highlight after a short delay
-        await Task.Delay(500);
-        clickedSquare = null;
-        StateHasChanged(); // Update UI to remove the red highlight
-
-        // Validate the player's input at the current step
-        if (blockGame.CheckPlayerInput(squareId))
-        {
-            currentPlayerStep++; // Move to the next step in the player's sequence
-
-            // Check if the player has completed the entire sequence for this round
-            if (blockGame.IsRoundComplete())
-            {
-                statusMessage = "Correct! Next round starting...";
-
-                blockGame.ResetRound(); // Reset the current round for the next sequence
-                currentPlayerStep = 0; // Reset player step for the next round
-                StartNewRound(); // Automatically start the next round
-            }
-        }
-        else
-        {
-            // Incorrect input, reset the game
-            statusMessage = "Wrong! Game over. Press 'Start New Round' to try again.";
-
-            blockGame.ResetGame(); // Reset the game state
-            currentPlayerStep = 0; // Reset progress
-        }
-    }
-
-    // Starts a new round by adding a square to the sequence and displaying the sequence
-    private async void StartNewRound()
-    {
-        isAnimatingSequence = true; // Disable player input during animation
-        statusMessage = "Watch the sequence...";
-
-        // Add a new square to the sequence before starting the iteration
-        blockGame.AddRandomSquare(); // Add a new square to the sequence
-
-        // Display the entire sequence by lighting up the squares one by one
-        foreach (var squareId in blockGame.Sequence.ToList()) // Use ToList() to avoid modifying the collection during iteration
-        {
-            activeSquare = squareId; // Highlight the current square
-            StateHasChanged(); // Force Blazor to update the UI after changing activeSquare
-
-            await Task.Delay(800); // Light it up for 800ms
-            activeSquare = null; // Turn off the light
-            StateHasChanged(); // Force UI update again to turn off the light
-            await Task.Delay(300); // Wait 300ms before lighting the next square
-        }
-
-        statusMessage = "Your turn! Repeat the sequence.";
-        isAnimatingSequence = false; // Allow player input after the sequence is displayed
-        StateHasChanged(); // Final UI update after the sequence is displayed
-    }
-
-    // Utility to determine if a square should be lit
-    private bool IsSquareLit(int squareId)
-    {
-        return activeSquare == squareId;
-    }
-
-    // Utility to determine if a square should be highlighted as clicked
-    private bool IsSquareClicked(int squareId)
-    {
-        return clickedSquare == squareId;
-    }
-}
 
 <style>
     .grid {
