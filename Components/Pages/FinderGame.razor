@@ -71,8 +71,8 @@ else
         {
             <img src="@obj.Image" @onclick="() => ObjectClicked(obj)"
                  style="position:absolute;
-                        left:@($"{obj.PositionX}%");
-                        top:@($"{obj.PositionY}%");
+                        left:@($"{obj.Position.X}%");
+                        top:@($"{obj.Position.Y}%");
                         display:@(obj.IsFound ? "none" : "block");" />
         }
 
