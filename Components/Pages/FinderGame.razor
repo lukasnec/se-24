@@ -5,13 +5,39 @@
 
 @if (GetCurrentGameState() == GameState.Waiting)
 {
-    <div style="position:relative; padding: 10px; text-align: center;">
-        <button @onclick="StartGame"
-                style="border-radius: 10px;
+    @if(selectedDifficulty == string.Empty)
+    {
+        <div style="position:relative; padding: 10px; text-align: center;">
+            <h3>Choose difficulty</h3>
+            <div>
+                <button @onclick="@(() => SetDifficulty("Easy"))"
+                        style="border-radius: 10px;
                        font-size: 24px;">
-            Start Game
-        </button>
-    </div>
+                    Easy
+                </button>
+                <button @onclick="@(() => SetDifficulty("Medium"))"
+                        style="border-radius: 10px;
+                       font-size: 24px;">
+                    Medium
+                </button>
+                <button @onclick="@(() => SetDifficulty("Hard"))"
+                        style="border-radius: 10px;
+                       font-size: 24px;">
+                    Hard
+                </button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="position:relative; padding: 10px; text-align: center;">
+            <button @onclick="StartGame"
+                    style="border-radius: 10px;
+                       font-size: 24px;">
+                Start Game
+            </button>
+        </div>
+    }
 }
 else
 {
@@ -47,8 +73,6 @@ else
                  style="position:absolute;
                         left:@($"{obj.PositionX}%");
                         top:@($"{obj.PositionY}%");
-                        width: 50px;
-                        height: 50px;
                         display:@(obj.IsFound ? "none" : "block");" />
         }
 

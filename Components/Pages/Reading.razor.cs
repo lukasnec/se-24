@@ -1,11 +1,12 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json;
+using src.Games.ReadingGame;
 
-
-namespace src.Games.ReadingGame
+namespace Components.Pages
 {
-    public class ReadingB
+    public partial class Reading
     {
-        public QuestionObject[] questions { get; set; } = new QuestionObject[100];
+        public QuestionClass[] questions { get; set; } = new QuestionClass[100];
         public Action? OnUIUpdate { get; set; }
         public int level = 1;
         public int taskTimer = 60;
@@ -27,23 +28,25 @@ namespace src.Games.ReadingGame
         public string answer3 = "";
         public string answer4 = "";
 
-        public int readingTime { get; set; } = 60;
+        public int readingTime = 60;
+        public double percentage = 0;
         public int score = 0;
         public string correct = "";
 
+        [Parameter]
+        public int Level { get; set; } = 1;
 
-        // Override OnInitializedAsync to load questions
-        public async Task OnInitializedAsync(int levelToLoad)
+        // Function to initialize the component
+        protected override async Task OnInitializedAsync()
         {
-            level = levelToLoad;
-            await LoadQuestionsAsync(levelToLoad);
+            level = Level;
+            OnUIUpdate = StateHasChanged;
+            await LoadQuestionsAsync(level);
         }
 
         // Function to load questions from JSON file
-        public async Task LoadQuestionsAsync(int levelToLoad)
+        public async Task LoadQuestionsAsync(int levelToLoad, string filePath = "questions.json")
         {
-            var filePath = "questions.json";
-
             if (File.Exists(filePath))
             {
                 using (FileStream fs = File.OpenRead(filePath))
@@ -59,11 +62,10 @@ namespace src.Games.ReadingGame
                             if (levelElement.GetProperty("Level").GetInt32() == levelToLoad)
                             {
                                 readingTime = levelElement.GetProperty("ReadingTime").GetInt32();
-
                                 text = levelElement.GetProperty("Text").GetString();
 
                                 var questionsNode = levelElement.GetProperty("Questions");
-                                questions = JsonSerializer.Deserialize<QuestionObject[]>(questionsNode.GetRawText());
+                                questions = JsonSerializer.Deserialize<QuestionClass[]>(questionsNode.GetRawText());
 
                                 if (questions != null)
                                 {
@@ -78,9 +80,6 @@ namespace src.Games.ReadingGame
             }
         }
 
-
-
-
         // Function to start the reading level
         public async Task OnStartClick()
         {
@@ -90,7 +89,7 @@ namespace src.Games.ReadingGame
         }
 
         // Function to start the timer
-        public async Task StartTimer(int readingTime)
+        public async Task StartTimer(int readingTime = 60)
         {
             taskTimer = readingTime;
 
@@ -140,7 +139,6 @@ namespace src.Games.ReadingGame
             isButtonsDisabled = true;
         }
 
-
         // Function to move to the next question
         public void OnNextQuestion()
         {
@@ -153,19 +151,23 @@ namespace src.Games.ReadingGame
         // Function to prepare the question
         public void PrepareQuestion()
         {
-            if (currentQuestion <= numberOfQuestions)
+            //LINQ usage to iterate through the array
+            var current = questions.ElementAtOrDefault(currentQuestion - 1);
+            if (current != null)
             {
-                question = questions[currentQuestion - 1].Question;
-                answer1 = questions[currentQuestion - 1].Answers[0];
-                answer2 = questions[currentQuestion - 1].Answers[1];
-                answer3 = questions[currentQuestion - 1].Answers[2];
-                answer4 = questions[currentQuestion - 1].Answers[3];
+                question = current.Question;
+                answer1 = current.Answers?.ElementAtOrDefault(0) ?? "Default 1";
+                answer2 = current.Answers?.ElementAtOrDefault(1) ?? "Default 2";
+                answer3 = current.Answers?.ElementAtOrDefault(2) ?? "Default 3";
+                answer4 = current.Answers?.ElementAtOrDefault(3) ?? "Default 4";
             }
+
         }
 
         // Function to end the level
         public void OnEndLevel()
         {
+            percentage = Math.Round(questions.GetCorrectPercentage(score),2);
             isQuestionsScreen = false;
             isEndScreen = true;
         }
@@ -182,3 +184,4 @@ namespace src.Games.ReadingGame
         }
     }
 }
+

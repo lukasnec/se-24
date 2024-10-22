@@ -1,4 +1,5 @@
 using se_24.Components;
+using src.Games.ReadingGame;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,25 +1,26 @@
 {
   "Id": 0,
-  "Image": "images/low-res-jars-background.jpg",
+  "Difficulty":  "Easy",
+  "Image": "images/findergame/low-res-jars-background.jpg",
   "GivenTime": 60,
   "GameObjects": [
     {
       "Name": "Kitchen Knife",
-      "Image": "images/pixelated-knife.png",
+      "Image": "images/findergame/pixelated-knife-large.png",
       "PositionX": 17,
       "PositionY": 15,
       "IsFound": false
     },
     {
       "Name": "Santa Claus",
-      "Image": "images/pixelated-santa.png",
+      "Image": "images/findergame/pixelated-santa-large.png",
       "PositionX": 40,
       "PositionY": 30,
       "IsFound": false
     },
     {
       "Name": "Kerosene Lamp",
-      "Image": "images/pixelated-lamp.png",
+      "Image": "images/findergame/pixelated-lamp-large.png",
       "PositionX": 50,
       "PositionY": 10,
       "IsFound": false
