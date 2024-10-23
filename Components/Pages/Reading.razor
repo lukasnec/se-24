@@ -9,35 +9,35 @@
 @if (isStartScreen)
 {
     <p>Click the button below to start the reading level.</p>
-    <button @onclick="OnStartClick">Start Reading Level</button>
+    <button @onclick="OnStartClick" class="btn btn-dark">Start Reading Level</button>
 }
 else if (isReadingScreen)
 {
     <p role="timer">Time: @taskTimer</p>
-    <p>@text</p>
+    <p class="border border-dark p-3 rounded"> @text</p>
 
-    <button @onclick="OnReadingFinished">I've already read it!</button>
+    <button @onclick="OnReadingFinished" class="btn btn-dark">I've already read it!</button>
 }
 else if (isQuestionsScreen)
 {
     <h2>@currentQuestion Question! Please select the correct answer.</h2>
     <p>@question</p>
 
-    <button @onclick="() => AnswerClick(1)" disabled="@isButtonsDisabled">@answer1</button>
-    <button @onclick="() => AnswerClick(2)" disabled="@isButtonsDisabled">@answer2</button>
-    <button @onclick="() => AnswerClick(3)" disabled="@isButtonsDisabled">@answer3</button>
-    <button @onclick="() => AnswerClick(4)" disabled="@isButtonsDisabled">@answer4</button>
+    <button @onclick="() => AnswerClick(1)" disabled="@isButtonsDisabled" class="btn btn-dark">@answer1</button>
+    <button @onclick="() => AnswerClick(2)" disabled="@isButtonsDisabled" class="btn btn-dark">@answer2</button>
+    <button @onclick="() => AnswerClick(3)" disabled="@isButtonsDisabled" class="btn btn-dark">@answer3</button>
+    <button @onclick="() => AnswerClick(4)" disabled="@isButtonsDisabled" class="btn btn-dark">@answer4</button>
 
     @if (isNextButtonEnabled || isEndButtonEnabled)
     {
         <p>Your answer: @correct</p>
         if (isNextButtonEnabled)
         {
-            <button @onclick="OnNextQuestion">Next Question</button>
+            <button @onclick="OnNextQuestion" class="btn btn-dark">Next Question</button>
         }
         else if (isEndButtonEnabled)
         {
-            <button @onclick="OnEndLevel">End Level</button>
+            <button @onclick="OnEndLevel" class="btn btn-dark">End Level</button>
         }
     }
 }
@@ -46,5 +46,5 @@ else if (isEndScreen)
     <p>Game Over!</p>
     <p>Your score is: @score</p>
     <p>Your correct answer percentage is: @percentage%</p>
-    <button @onclick="OnRestartClick">Restart</button>
+    <button @onclick="OnRestartClick" class="btn btn-dark">Restart</button>
 }
