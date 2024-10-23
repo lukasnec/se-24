@@ -90,6 +90,7 @@ namespace se_24.Components.Pages
             }
 
             statusMessage = "Your turn! Repeat the sequence.";
+            StateHasChanged();
             isAnimatingSequence = false;
             CurrentStep = 0;
         }
