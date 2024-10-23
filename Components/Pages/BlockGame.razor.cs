@@ -7,55 +7,77 @@ using System.Threading.Tasks;
 
 namespace se_24.Components.Pages
 {
+    public class GameMove
+    {
+        public int SquareId { get; set; }
+
+        public GameMove(int squareId)
+        {
+            SquareId = squareId;
+        }
+    }
+
+    public class PlayerStats
+    {
+        public int CorrectSequenceCount { get; set; }
+
+        public PlayerStats(int correctSequenceCount)
+        {
+            CorrectSequenceCount = correctSequenceCount;
+        }
+    }
+
     public partial class BlockGame : ComponentBase
     {
-        private List<int> Sequence { get; set; } = new List<int>();
+        // Static Random instance for randomness
+        private static readonly Random random = new Random();
+
+        // Current sequence of squares for this round
+        private List<GameMove> Sequence { get; set; } = new List<GameMove>();
+
+        private PlayerStats playerStats = new PlayerStats(0);
         private int CurrentStep { get; set; } = 0;
         private string statusMessage = "Press 'Start New Round' to begin.";
         private bool isAnimatingSequence = false;
         private int? activeSquare = null;
         private int? clickedSquare = null;
 
-        // GameState to track the current state of the game
         private GameState CurrentGameState { get; set; } = GameState.Waiting;
 
-        // Counter to track successful sequences
-        private int correctSequenceCount = 0;
+        private int roundNumber = 1; // Track the current round number
 
         [Inject] private NavigationManager Navigation { get; set; }
-
-        // Timer field for managing game timing
-        private System.Timers.Timer? timer;
 
         public void StartGame()
         {
             CurrentGameState = GameState.Started;
-            correctSequenceCount = 0;  // Reset the counter when starting a new game
+            playerStats = new PlayerStats(0);  // Reset the player's correct sequence count
+            roundNumber = 1; // Start with the first round
             StartNewRound();
         }
 
-        // Player clicks a square
+        // When player clicks a square
         private async void OnPlayerClick(int squareId)
         {
             if (isAnimatingSequence || CurrentGameState != GameState.Started) return;
 
             clickedSquare = squareId;
-            StateHasChanged(); // Refresh the UI to show the clicked square
+            StateHasChanged();
 
             await Task.Delay(500);
             clickedSquare = null;
             StateHasChanged();
 
-            if (CheckPlayerInput(squareId)) // Check if player's input is correct
+            if (CheckPlayerInput(squareId))
             {
                 CurrentStep++;
-                if (IsRoundComplete()) // If player completes the sequence
+                if (IsRoundComplete())
                 {
                     statusMessage = "Correct! Starting next round...";
-                    correctSequenceCount++; // Increment the counter
+                    playerStats.CorrectSequenceCount++;  // Increment correct sequence count
+                    roundNumber++;  // Increment round number for the next round
                     CurrentGameState = GameState.Finished;
                     await Task.Delay(1000);
-                    ResetRound();
                     StartNewRound();
                 }
             }
@@ -67,23 +89,24 @@ namespace se_24.Components.Pages
             }
         }
 
-        // Start a new round
+        // Generate a new random sequence for this round and animate it
         private async void StartNewRound()
         {
             isAnimatingSequence = true;
             statusMessage = "Watch the sequence...";
             CurrentGameState = GameState.Started;
-            AddRandomSquare();
 
-            foreach (var squareId in Sequence.ToList())
+            GenerateNewRandomSequence(roundNumber); // Generate a new sequence based on the round number
+
+            // Play the sequence by lighting up the squares one by one
+            foreach (var move in Sequence)
             {
-                activeSquare = squareId;
+                activeSquare = move.SquareId;
                 StateHasChanged();
-
-                await Task.Delay(800);
+                await Task.Delay(800); // Delay to show square lit
                 activeSquare = null;
                 StateHasChanged();
-                await Task.Delay(300);
+                await Task.Delay(300); // Short delay between squares
             }
 
             statusMessage = "Your turn! Repeat the sequence.";
@@ -91,39 +114,35 @@ namespace se_24.Components.Pages
             CurrentStep = 0;
         }
 
-        // Add a random square to the sequence
-        private void AddRandomSquare()
+        // Generate a new random sequence of squares for this round
+        private void GenerateNewRandomSequence(int sequenceLength)
         {
-            var random = new Random();
-            Sequence.Add(random.Next(1, 5));
+            Sequence.Clear(); // Clear the previous sequence
+            for (int i = 0; i < sequenceLength; i++)
+            {
+                int newSquareId = random.Next(1, 5); // Random number between 1 and 4
+                Sequence.Add(new GameMove(newSquareId)); // Add the new square to the sequence
+            }
         }
 
-        // Check if the player's input matches the current step in the sequence
         private bool CheckPlayerInput(int input)
         {
             if (CurrentStep >= Sequence.Count || CurrentStep < 0) return false;
-            return Sequence[CurrentStep] == input;
+            return Sequence[CurrentStep].SquareId == input;
         }
 
-        // Check if the player has completed the current sequence
         private bool IsRoundComplete() => CurrentStep >= Sequence.Count;
 
-        // End the game (called by the End Game button)
         public void EndGame()
         {
             statusMessage = "Game ended by the player.";
             CurrentGameState = GameState.Finished;
         }
 
-        private void ResetRound()
-        {
-            CurrentStep = 0;
-            CurrentGameState = GameState.Waiting;
-        }
-
         private void ResetGame()
         {
             Sequence.Clear();
+            roundNumber = 1; // Reset the round number when the game is reset
             CurrentStep = 0;
             isAnimatingSequence = false;
             CurrentGameState = GameState.Waiting;

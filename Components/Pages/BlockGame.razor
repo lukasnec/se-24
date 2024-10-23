@@ -7,8 +7,7 @@
 <p>@statusMessage</p>
 
 <!-- Display the counter for successful sequences -->
-<p>Correct Sequences: @correctSequenceCount</p>
-
+<p>Correct Sequences: @playerStats.CorrectSequenceCount</p> <!-- Fixed to use playerStats -->
 <!-- Grid of clickable squares -->
 <div class="grid">
     <div id="square1" class="square @(IsSquareLit(1) ? "light" : "") @(IsSquareClicked(1) ? "pressed" : "")" @onclick="() => OnPlayerClick(1)" disabled="@DisableSquareClick()">1</div>
