@@ -3,9 +3,8 @@
     public class GameObject
     {
         public string Name { get; set; } = "";
-        public string Image { get; set; }
-        public int PositionX { get; set; } // x of position (percentile)
-        public int PositionY { get; set; } // y of position (percentile)
+        public required string Image { get; set; }
+        public required Position Position { get; set; } // GameObject position on screen (percentile)
         public bool IsFound { get; set; } = false;
     }
 }

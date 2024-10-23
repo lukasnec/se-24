@@ -32,6 +32,7 @@ public partial class FinderGame
     {
         selectedDifficulty = difficulty;
         currentLevels = levels.Where(level => level.Difficulty == difficulty).ToList();
+        currentLevels.Sort();
         defaultTime = currentLevels[currentLevelIndex].GivenTime;
     }
 

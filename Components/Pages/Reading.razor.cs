@@ -6,7 +6,7 @@ namespace Components.Pages
 {
     public partial class Reading
     {
-        public QuestionClass[] questions { get; set; } = new QuestionClass[100];
+        public ReadingQuestion[] questions { get; set; } = new ReadingQuestion[100];
         public Action? OnUIUpdate { get; set; }
         public int level = 1;
         public int taskTimer = 60;
@@ -46,6 +46,7 @@ namespace Components.Pages
 
         // Function to load questions from JSON file
         public async Task LoadQuestionsAsync(int levelToLoad, string filePath = "questions.json")
+
         {
             if (File.Exists(filePath))
             {
@@ -65,7 +66,7 @@ namespace Components.Pages
                                 text = levelElement.GetProperty("Text").GetString();
 
                                 var questionsNode = levelElement.GetProperty("Questions");
-                                questions = JsonSerializer.Deserialize<QuestionClass[]>(questionsNode.GetRawText());
+                                questions = JsonSerializer.Deserialize<ReadingQuestion[]>(questionsNode.GetRawText());
 
                                 if (questions != null)
                                 {
@@ -151,18 +152,21 @@ namespace Components.Pages
         // Function to prepare the question
         public void PrepareQuestion()
         {
-            //LINQ usage to iterate through the array
-            var current = questions.ElementAtOrDefault(currentQuestion - 1);
-            if (current != null)
+            if (currentQuestion > 0 && currentQuestion <= questions.Length)
             {
-                question = current.Question;
-                answer1 = current.Answers?.ElementAtOrDefault(0) ?? "Default 1";
-                answer2 = current.Answers?.ElementAtOrDefault(1) ?? "Default 2";
-                answer3 = current.Answers?.ElementAtOrDefault(2) ?? "Default 3";
-                answer4 = current.Answers?.ElementAtOrDefault(3) ?? "Default 4";
-            }
+                var current = questions[currentQuestion - 1];
 
+                if (current != null && current.Answers != null && current.Answers.Length >= 4)
+                {
+                    question = current.Question;
+                    answer1 = current.Answers[0];
+                    answer2 = current.Answers[1];
+                    answer3 = current.Answers[2];
+                    answer4 = current.Answers[3];
+                }
+            }
         }
+
 
         // Function to end the level
         public void OnEndLevel()
