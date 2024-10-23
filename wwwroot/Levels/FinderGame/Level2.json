@@ -7,22 +7,28 @@
     {
       "Name": "Kitchen Knife",
       "Image": "images/findergame/pixelated-knife-medium.png",
-      "PositionX": 40,
-      "PositionY": 60,
+      "Position": {
+        "X": 40,
+        "Y": 60
+      },
       "IsFound": false
     },
     {
       "Name": "Santa Claus",
       "Image": "images/findergame/pixelated-santa-medium.png",
-      "PositionX": 50,
-      "PositionY": 50,
+      "Position": {
+        "X": 50,
+        "Y": 50
+      },
       "IsFound": false
     },
     {
       "Name": "Kerosene Lamp",
       "Image": "images/findergame/pixelated-lamp-medium.png",
-      "PositionX": 50,
-      "PositionY": 10,
+      "Position": {
+        "X": 50,
+        "Y": 10
+      },
       "IsFound": false
     }
   ]
