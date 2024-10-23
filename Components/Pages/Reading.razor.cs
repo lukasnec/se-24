@@ -152,18 +152,21 @@ namespace Components.Pages
         // Function to prepare the question
         public void PrepareQuestion()
         {
-            //LINQ usage to iterate through the array
-            var current = questions.ElementAtOrDefault(currentQuestion - 1);
-            if (current != null)
+            if (currentQuestion > 0 && currentQuestion <= questions.Length)
             {
-                question = current.Question;
-                answer1 = current.Answers?.ElementAtOrDefault(0) ?? "Default 1";
-                answer2 = current.Answers?.ElementAtOrDefault(1) ?? "Default 2";
-                answer3 = current.Answers?.ElementAtOrDefault(2) ?? "Default 3";
-                answer4 = current.Answers?.ElementAtOrDefault(3) ?? "Default 4";
-            }
+                var current = questions[currentQuestion - 1];
 
+                if (current != null && current.Answers != null && current.Answers.Length >= 4)
+                {
+                    question = current.Question;
+                    answer1 = current.Answers[0];
+                    answer2 = current.Answers[1];
+                    answer3 = current.Answers[2];
+                    answer4 = current.Answers[3];
+                }
+            }
         }
+
 
         // Function to end the level
         public void OnEndLevel()
