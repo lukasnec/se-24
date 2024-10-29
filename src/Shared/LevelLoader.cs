@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
+using src.Games.FinderGame;
 
-namespace src.Games.FinderGame
+namespace src.Shared
 {
     public class LevelLoader
     {
