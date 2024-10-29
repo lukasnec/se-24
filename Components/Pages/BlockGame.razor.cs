@@ -1,15 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using src.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using src.Games.BlockGame;
 
 namespace se_24.Components.Pages
 {
-    public record GameMove(int SquareId);
-
-    public record PlayerStats(int CorrectSequenceCount);
 
     public partial class BlockGame : ComponentBase
     {
