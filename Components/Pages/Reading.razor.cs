@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json;
 using src.Games.ReadingGame;
+using src.Shared;
 
 namespace Components.Pages
 {
     public partial class Reading
     {
+        public readonly LevelLoader _levelLoader = new();
+        private List<ReadingLevel> readingLevels = [];
         public ReadingQuestion[] questions { get; set; } = new ReadingQuestion[100];
         public Action? OnUIUpdate { get; set; }
         public int level = 1;
@@ -41,43 +43,14 @@ namespace Components.Pages
         {
             level = Level;
             OnUIUpdate = StateHasChanged;
-            await LoadQuestionsAsync(level);
-        }
-
-        // Function to load questions from JSON file
-        public async Task LoadQuestionsAsync(int levelToLoad, string filePath = "questions.json")
-
-        {
-            if (File.Exists(filePath))
+            readingLevels = _levelLoader.LoadAllLevels<ReadingLevel>("wwwroot/Levels/ReadingGame");
+            ReadingLevel selectedLevel = readingLevels.FirstOrDefault(readingLevel => readingLevel.Level == level);
+            if (selectedLevel != null)
             {
-                using (FileStream fs = File.OpenRead(filePath))
-                {
-                    JsonDocument jsonDocument = await JsonDocument.ParseAsync(fs);
-
-                    var levelsNode = jsonDocument.RootElement.GetProperty("Levels");
-
-                    if (levelsNode.ValueKind == JsonValueKind.Array)
-                    {
-                        foreach (var levelElement in levelsNode.EnumerateArray())
-                        {
-                            if (levelElement.GetProperty("Level").GetInt32() == levelToLoad)
-                            {
-                                readingTime = levelElement.GetProperty("ReadingTime").GetInt32();
-                                text = levelElement.GetProperty("Text").GetString();
-
-                                var questionsNode = levelElement.GetProperty("Questions");
-                                questions = JsonSerializer.Deserialize<ReadingQuestion[]>(questionsNode.GetRawText());
-
-                                if (questions != null)
-                                {
-                                    numberOfQuestions = questions.Length;
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-                }
+                readingTime = selectedLevel.ReadingTime;
+                text = selectedLevel.Text;
+                questions = selectedLevel.Questions;
+                numberOfQuestions = questions.Length;
             }
         }
 
