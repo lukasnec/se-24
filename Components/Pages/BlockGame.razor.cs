@@ -63,6 +63,7 @@ namespace se_24.Components.Pages
                 CurrentGameState = GameState.Failed;
                 ResetGame();
             }
+            StateHasChanged();
         }
 
         private async void StartNewRound()
