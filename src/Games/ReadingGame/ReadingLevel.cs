@@ -1,6 +1,6 @@
 ﻿namespace src.Games.ReadingGame
 {
-    public class LevelClass
+    public class ReadingLevel
     {
         public int Level { get; set; }
         public string Text { get; set; } = "";

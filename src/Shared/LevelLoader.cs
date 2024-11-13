@@ -1,12 +1,12 @@
 ﻿using System.Text.Json;
 
-namespace src.Games.FinderGame
+namespace src.Shared
 {
     public class LevelLoader
     {
-        public List<Level> LoadAllLevels(string directoryPath)
+        public List<T> LoadAllLevels<T>(string directoryPath)
         {
-            List<Level> levels = [];
+            List<T> levels = [];
 
             // Get all JSON files in the directory
             string[] levelFiles = Directory.GetFiles(directoryPath, "*.json");
@@ -16,16 +16,16 @@ namespace src.Games.FinderGame
                 // Open the file as a stream
                 using (FileStream fileStream = new(file, FileMode.Open, FileAccess.Read))
                 {
-                    Level level = LoadLevel(fileStream);
+                    T level = LoadLevel<T>(fileStream);
                     levels.Add(level);
                 }
             }
 
             return levels;
         }
-        public Level LoadLevel(Stream stream)
+        public T LoadLevel<T>(Stream stream)
         {
-            Level level = JsonSerializer.Deserialize<Level>(stream);
+            T level = JsonSerializer.Deserialize<T>(stream);
             return level;
         }
     }

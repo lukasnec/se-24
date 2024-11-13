@@ -24,7 +24,7 @@ public partial class FinderGame
 
     protected override void OnInitialized()
     {
-        levels = _levelLoader.LoadAllLevels("wwwroot/Levels/FinderGame");
+        levels = _levelLoader.LoadAllLevels<Level>("wwwroot/Levels/FinderGame");
         currentLevelIndex = 0;
     }
 
