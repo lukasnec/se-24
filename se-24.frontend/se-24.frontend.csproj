@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>se-24</RootNamespace>
+    <RootNamespace>se-24.frontend</RootNamespace>
     <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
   </PropertyGroup>
 
