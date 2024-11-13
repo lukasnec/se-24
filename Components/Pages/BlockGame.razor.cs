@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace se_24.Components.Pages
 {
     public record GameMove(int SquareId);

@@ -1,0 +1,31 @@
+﻿@inherits LayoutComponentBase
+@inject src.Authentification.UserStateService UserState
+@inject NavigationManager Navigation
+
+<div>
+    @if (UserState.GetAuthenticated() || UserState.GetGuest())
+    {
+        @Body
+    }
+    else
+    {
+        <p>Redirecting to login...</p>
+    }
+</div>
+
+@code {
+    private bool _hasRedirected = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_hasRedirected)
+        {
+            if (!UserState.GetAuthenticated() && !UserState.GetGuest())
+            {
+                _hasRedirected = true;
+                await Task.Delay(100);
+                Navigation.NavigateTo("/", true);
+            }
+        }
+    }
+}

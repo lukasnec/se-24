@@ -59,3 +59,19 @@ h1:focus {
     border-radius: 10px; 
     font-size: 24px;    
 }
+
+.form-group, .linkLogin{
+    width: 30%;
+    margin: 0 auto;
+    display: block;
+    padding:10px;
+}
+
+.linkLogin{
+    padding-top: 0px;
+}
+
+.label-left {
+    text-align: left;
+    display: block;
+}

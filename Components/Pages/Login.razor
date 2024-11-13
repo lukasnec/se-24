@@ -1,0 +1,27 @@
+﻿@page "/login"
+@namespace Components.Pages
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger mt-3">@errorMessage</div>
+}
+
+<PageTitle>Login</PageTitle>
+
+<div class="text-center">
+    <h2>LOGIN</h2>
+    <div class="form-group">
+        <label class="label-left" for="usernameInput">Username</label>
+        <input type="username" class="form-control" id="emailInput" placeholder="Enter username" @bind=Username>
+    </div>
+    <div class="form-group">
+        <label class="label-left" for="passwordInput">Password</label>
+        <input type="password" class="form-control" id="passwordInput" placeholder="Enter password" @bind=Password>
+    </div>
+
+    <a href="/" class="linkLogin">Don't have an account? Register here</a>
+    <a href="/games" class="linkLogin" @onclick="() => AssignGuest()">Continue as Guest</a>
+
+    <button type="login" @onclick="() => LoginUser()" class="btn btn-primary">Login</button>
+</div>
+
