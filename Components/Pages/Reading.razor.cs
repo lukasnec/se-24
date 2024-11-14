@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
+using src.Data;
 using src.Games.ReadingGame;
 using src.Shared;
 
@@ -6,9 +8,10 @@ namespace Components.Pages
 {
     public partial class Reading
     {
+        [Inject] private IDbContextFactory<AppDbContext> DbFactory { get; set; }
         public readonly LevelLoader _levelLoader = new();
         private List<ReadingLevel> readingLevels = [];
-        public ReadingQuestion[] questions { get; set; } = new ReadingQuestion[100];
+        public List<ReadingQuestion> questions { get; set; } = [];
         public Action? OnUIUpdate { get; set; }
         public int level = 1;
         public int taskTimer = 60;
@@ -50,7 +53,7 @@ namespace Components.Pages
                 readingTime = selectedLevel.ReadingTime;
                 text = selectedLevel.Text;
                 questions = selectedLevel.Questions;
-                numberOfQuestions = questions.Length;
+                numberOfQuestions = questions.Count;
             }
         }
 
@@ -125,7 +128,7 @@ namespace Components.Pages
         // Function to prepare the question
         public void PrepareQuestion()
         {
-            if (currentQuestion > 0 && currentQuestion <= questions.Length)
+            if (currentQuestion > 0 && currentQuestion <= questions.Count)
             {
                 var current = questions[currentQuestion - 1];
 

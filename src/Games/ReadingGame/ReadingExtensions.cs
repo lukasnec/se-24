@@ -2,10 +2,10 @@
 {
     public static class ReadingExtensions
 {
-        public static double GetCorrectPercentage(this ReadingQuestion[] questions, int correctAnswers)
+        public static double GetCorrectPercentage(this List<ReadingQuestion> questions, int correctAnswers)
         {
-            if (questions.Length == 0) return 0;
-            return (correctAnswers / (double)questions.Length) * 100;
+            if (questions.Count == 0) return 0;
+            return (correctAnswers / (double)questions.Count) * 100;
         }
     }
 }
