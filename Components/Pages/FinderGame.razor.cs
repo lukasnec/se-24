@@ -2,12 +2,15 @@
 using src.Games.FinderGame;
 using src.Enums;
 using src.Shared;
+using Microsoft.EntityFrameworkCore;
+using src.Data;
 
 namespace se_24.Components.Pages;
 
 public partial class FinderGame
 {
     [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private IDbContextFactory<AppDbContext> DbFactory { get; set; }
 
     private string selectedDifficulty = string.Empty;
     private GameState gameState = GameState.Waiting;
