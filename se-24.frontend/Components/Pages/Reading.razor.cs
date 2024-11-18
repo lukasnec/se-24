@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components;
 using src.Games.ReadingGame;
-using src.Shared;
+using se_24.shared.src.Games.ReadingGame;
+using System.Text.Json;
 
 namespace Components.Pages
 {
     public partial class Reading
     {
-        public readonly LevelLoader _levelLoader = new();
         private List<ReadingLevel> readingLevels = [];
-        public ReadingQuestion[] questions { get; set; } = new ReadingQuestion[100];
+        public List<ReadingQuestion> questions { get; set; } = [];
         public Action? OnUIUpdate { get; set; }
         public int level = 1;
         public int taskTimer = 60;
@@ -43,14 +43,39 @@ namespace Components.Pages
         {
             level = Level;
             OnUIUpdate = StateHasChanged;
-            readingLevels = _levelLoader.LoadAllLevels<ReadingLevel>("wwwroot/Levels/ReadingGame");
+            readingLevels = await GetReadingLevels(level); //_levelLoader.LoadAllLevels<ReadingLevel>("wwwroot/Levels/ReadingGame");
             ReadingLevel selectedLevel = readingLevels.FirstOrDefault(readingLevel => readingLevel.Level == level);
             if (selectedLevel != null)
             {
                 readingTime = selectedLevel.ReadingTime;
                 text = selectedLevel.Text;
                 questions = selectedLevel.Questions;
-                numberOfQuestions = questions.Length;
+                numberOfQuestions = questions.Count;
+            }
+        }
+
+        public async Task<List<ReadingLevel>> GetReadingLevels(int level)
+        {
+            string url = $"https://localhost:7077/api/ReadingLevels/{level}";
+
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return JsonSerializer.Deserialize<List<ReadingLevel>>(jsonResponse, options);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching levels: {ex.Message}");
+                throw;
             }
         }
 
@@ -125,7 +150,7 @@ namespace Components.Pages
         // Function to prepare the question
         public void PrepareQuestion()
         {
-            if (currentQuestion > 0 && currentQuestion <= questions.Length)
+            if (currentQuestion > 0 && currentQuestion <= questions.Count)
             {
                 var current = questions[currentQuestion - 1];
 
