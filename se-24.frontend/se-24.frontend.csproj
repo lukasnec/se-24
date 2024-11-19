@@ -9,9 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="src\Games\FinderGame\" />
     <Folder Include="wwwroot\Images\NewFolder\" />
-    <Folder Include="wwwroot\Levels\FinderGame\" />
-    <Folder Include="wwwroot\Levels\ReadingGame\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\se-24.shared\se-24.shared.csproj" />
   </ItemGroup>
 
 </Project>

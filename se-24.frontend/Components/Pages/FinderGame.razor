@@ -25,7 +25,15 @@
             </div>
         </div>
     }
-    else
+    else if(isLoading)
+    {
+        <div>
+            <span>
+                Loading...
+            </span>
+        </div>
+    }
+    else if(!isLoading && currentLevels.Count > 0)
     {
         <div style="position:relative; padding: 10px; text-align: center;">
             <button @onclick="StartGame"

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
-using src.Games.FinderGame;
+using se_24.shared.src.Games.FinderGame;
 using src.Enums;
-using src.Shared;
+using se_24.shared.src.Shared;
+using System.Text.Json;
 
 namespace se_24.frontend.Components.Pages;
 
@@ -9,11 +10,12 @@ public partial class FinderGame
 {
     [Inject] private NavigationManager NavigationManager { get; set; }
 
+    private bool isLoading = false;
+
     private string selectedDifficulty = string.Empty;
     private GameState gameState = GameState.Waiting;
     private int objectsFound = 0;
 
-    private readonly LevelLoader _levelLoader = new();
     private List<Level> levels = [];
     private List<Level> currentLevels = [];
     private int currentLevelIndex;
@@ -24,16 +26,57 @@ public partial class FinderGame
 
     protected override void OnInitialized()
     {
-        levels = _levelLoader.LoadAllLevels<Level>("wwwroot/Levels/FinderGame");
         currentLevelIndex = 0;
     }
 
-    public void SetDifficulty(string difficulty)
+    public async Task<List<Level>> GetGameLevels(string difficulty)
+    {
+        string url = $"https://localhost:7077/api/FinderLevels/{difficulty}";
+
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                return JsonSerializer.Deserialize<List<Level>>(jsonResponse, options);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching levels: {ex.Message}");
+            throw;
+        }
+    }
+
+    public async Task SetDifficulty(string difficulty)
     {
         selectedDifficulty = difficulty;
-        currentLevels = levels.Where(level => level.Difficulty == difficulty).ToList();
-        currentLevels.Sort();
-        defaultTime = currentLevels[currentLevelIndex].GivenTime;
+        try
+        {
+            currentLevels = await GetGameLevels(selectedDifficulty);
+            currentLevels.Sort();
+            isLoading = true;
+            if (currentLevels.Count > 0)
+            {
+                defaultTime = currentLevels[currentLevelIndex].GivenTime;
+            }
+            Console.WriteLine(currentLevels.Count);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error setting difficulty: {ex.Message}");
+            throw;
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 
     public void StartGame()
