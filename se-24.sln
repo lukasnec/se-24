@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "se-24", "se-24.csproj", "{64E1C0F3-BBD9-4F3C-942A-CB4B5D4C1CE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "se-24.frontend", "se-24.frontend\se-24.frontend.csproj", "{64E1C0F3-BBD9-4F3C-942A-CB4B5D4C1CE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "se-24.backend", "se-24.backend\se-24.backend.csproj", "{1AA00410-BEDA-453C-B564-D34D27A6DEB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{64E1C0F3-BBD9-4F3C-942A-CB4B5D4C1CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64E1C0F3-BBD9-4F3C-942A-CB4B5D4C1CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64E1C0F3-BBD9-4F3C-942A-CB4B5D4C1CE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA00410-BEDA-453C-B564-D34D27A6DEB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA00410-BEDA-453C-B564-D34D27A6DEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA00410-BEDA-453C-B564-D34D27A6DEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA00410-BEDA-453C-B564-D34D27A6DEB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

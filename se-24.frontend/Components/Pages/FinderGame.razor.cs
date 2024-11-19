@@ -3,7 +3,7 @@ using src.Games.FinderGame;
 using src.Enums;
 using src.Shared;
 
-namespace se_24.Components.Pages;
+namespace se_24.frontend.Components.Pages;
 
 public partial class FinderGame
 {

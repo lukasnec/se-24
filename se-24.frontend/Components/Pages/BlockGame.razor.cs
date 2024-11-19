@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using src.Enums;
 using src.Games.BlockGame;
 
-namespace se_24.Components.Pages
+namespace se_24.frontend.Components.Pages
 {
 
     public partial class BlockGame : ComponentBase
