@@ -1,0 +1,111 @@
+﻿@page "/leaderboard"
+
+<PageTitle>Leaderboard</PageTitle>
+
+<div class="leaderboard">
+    <h2>Leaderboard</h2>
+
+    <div class="filter-section">
+        <label for="gameFilter">Filter by Game:</label>
+        <select id="gameFilter" @bind="selectedGameName">
+            <option value="All">All</option>
+            <option value="FinderGame">Finder Game</option>
+            <option value="ReadingGame">Reading Game</option>
+            <option value="BlockGame">Block Game</option>
+        </select>
+
+        <label for="rankFilter">Top Ranks:</label>
+        <select id="rankFilter" @bind="topRanks">
+            <option value="0">All</option>
+            <option value="5">Top 5</option>
+            <option value="10">Top 10</option>
+            <option value="20">Top 20</option>
+        </select>
+    </div>
+
+    <table class="leaderboard-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Game Name</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (FilteredScores.Any())
+            {
+                var rank = 1;
+                foreach (var score in FilteredScores)
+                {
+                    <tr>
+                        <td>@rank</td>
+                        <td>@score.PlayerName</td>
+                        <td>@score.GameName</td>
+                        <td>@score.value</td>
+                    </tr>
+                    rank++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="no-data">No scores to display</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .leaderboard {
+        margin: 20px auto;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        max-width: 600px;
+        text-align: center;
+    }
+
+        .leaderboard h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #343a40;
+        }
+
+    .leaderboard-table {
+        width: 100%;
+        border-spacing: 0 15px;
+        border-collapse: separate;
+    }
+
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 12px 20px;
+            text-align: left;
+        }
+
+        .leaderboard-table th {
+            background-color: #343a40;
+            color: #ffffff;
+            border: 1px solid #343a40;
+        }
+
+        .leaderboard-table td {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            color: #495057;
+        }
+
+        .leaderboard-table tr {
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .leaderboard-table .no-data {
+            text-align: center;
+            color: #868e96;
+            padding: 20px;
+            font-style: italic;
+        }
+</style>
