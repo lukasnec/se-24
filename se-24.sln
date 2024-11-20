@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "se-24.frontend", "se-24.fro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "se-24.backend", "se-24.backend\se-24.backend.csproj", "{1AA00410-BEDA-453C-B564-D34D27A6DEB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "se-24.shared", "se-24.shared\se-24.shared.csproj", "{A7445F5B-85B6-4D8E-857C-B071995EA65A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "se-24.shared", "se-24.shared\se-24.shared.csproj", "{A7445F5B-85B6-4D8E-857C-B071995EA65A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
