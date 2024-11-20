@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using se_24.backend.src.Data;
-using se_24.shared.src.Games.FinderGame;
 using se_24.shared.src.Shared;
 
 namespace se_24.backend.Controllers
