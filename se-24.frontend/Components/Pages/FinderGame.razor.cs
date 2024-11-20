@@ -13,22 +13,22 @@ public partial class FinderGame
 
     private bool isLoading = false;
     private bool completedLevels = false;
-    private int score = 0;
-    private string username = string.Empty;
+    public int score = 0;
+    public string username = string.Empty;
 
-    private string selectedDifficulty = string.Empty;
+    public string selectedDifficulty = string.Empty;
     private GameState gameState = GameState.Waiting;
-    private int objectsFound = 0;
+    public int objectsFound = 0;
 
     private List<Level> levels = [];
     private List<Level> currentLevels = [];
     private int currentLevelIndex;
 
     private static System.Timers.Timer timer;
-    private int defaultTime = 20; // Time given for a level
+    public int defaultTime = 20; // Time given for a level
     private int counter = 10; // Time shown to user
-    private int totalElapsedTime = 0;
-    private int totalGivenTime = 0;
+    public int totalElapsedTime = 0;
+    public int totalGivenTime = 0;
 
     protected override void OnInitialized()
     {
