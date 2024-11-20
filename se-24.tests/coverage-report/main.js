@@ -225,7 +225,7 @@ var assemblies = [
       { "name": "se_24.backend.Controllers.FinderLevelsController", "rp": "se_24.backend_FinderLevelsController.html", "cl": 0, "ucl": 12, "cal": 12, "tl": 29, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "se_24.backend.Controllers.LevelLoadFromFileController", "rp": "se_24.backend_LevelLoadFromFileController.html", "cl": 0, "ucl": 33, "cal": 33, "tl": 60, "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "se_24.backend.Controllers.ReadingLevelsController", "rp": "se_24.backend_ReadingLevelsController.html", "cl": 0, "ucl": 12, "cal": 12, "tl": 30, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "se_24.backend.Controllers.ScoreController", "rp": "se_24.backend_ScoreController.html", "cl": 0, "ucl": 36, "cal": 36, "tl": 69, "cb": 0, "tb": 10, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "se_24.backend.Controllers.ScoreController", "rp": "se_24.backend_ScoreController.html", "cl": 0, "ucl": 36, "cal": 36, "tl": 68, "cb": 0, "tb": 10, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "se_24.backend.Migrations.AppDbContextModelSnapshot", "rp": "se_24.backend_AppDbContextModelSnapshot.html", "cl": 0, "ucl": 175, "cal": 175, "tl": 205, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "se_24.backend.Migrations.InitialMigration", "rp": "se_24.backend_InitialMigration.html", "cl": 0, "ucl": 243, "cal": 243, "tl": 300, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "se_24.backend.Migrations.ScoreAddition", "rp": "se_24.backend_ScoreAddition.html", "cl": 0, "ucl": 188, "cal": 188, "tl": 237, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -237,14 +237,12 @@ var assemblies = [
     "classes": [
       { "name": "Components.Pages.Reading", "rp": "se_24.frontend_Reading.html", "cl": 0, "ucl": 195, "cal": 195, "tl": 296, "cb": 0, "tb": 46, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Program", "rp": "se_24.frontend_Program.html", "cl": 0, "ucl": 15, "cal": 15, "tl": 27, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "se_24.frontend.Components.Pages.BlockGame", "rp": "se_24.frontend_BlockGame.html", "cl": 0, "ucl": 148, "cal": 148, "tl": 271, "cb": 0, "tb": 48, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "se_24.frontend.Components.Pages.Counter", "rp": "se_24.frontend_Counter.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "se_24.frontend.Components.Pages.BlockGame", "rp": "se_24.frontend_BlockGame.html", "cl": 110, "ucl": 38, "cal": 148, "tl": 271, "cb": 33, "tb": 48, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "se_24.frontend.Components.Pages.Error", "rp": "se_24.frontend_Error.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 36, "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "se_24.frontend.Components.Pages.FinderGame", "rp": "se_24.frontend_FinderGame.html", "cl": 53, "ucl": 152, "cal": 205, "tl": 377, "cb": 12, "tb": 56, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "se_24.frontend.Components.Pages.FinderGame", "rp": "se_24.frontend_FinderGame.html", "cl": 58, "ucl": 147, "cal": 205, "tl": 377, "cb": 14, "tb": 56, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "se_24.frontend.Components.Pages.Leaderboard", "rp": "se_24.frontend_Leaderboard.html", "cl": 0, "ucl": 39, "cal": 39, "tl": 164, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "se_24.frontend.Components.Pages.Weather", "rp": "se_24.frontend_Weather.html", "cl": 0, "ucl": 23, "cal": 23, "tl": 64, "cb": 0, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "src.Games.BlockGame.GameMove", "rp": "se_24.frontend_GameMove.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 4, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "src.Games.BlockGame.PlayerStats", "rp": "se_24.frontend_PlayerStats.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 4, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "src.Games.BlockGame.GameMove", "rp": "se_24.frontend_GameMove.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 4, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "src.Games.BlockGame.PlayerStats", "rp": "se_24.frontend_PlayerStats.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 4, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "src.Games.ReadingGame.ReadingExtensions", "rp": "se_24.frontend_ReadingExtensions.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 13, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
   {
@@ -272,12 +270,6 @@ var riskHotspotMetrics = [
 
 var riskHotspots = [
   {
-    "assembly": "se-24.frontend", "class": "se_24.frontend.Components.Pages.BlockGame", "reportPath": "se_24.frontend_BlockGame.html", "methodName": "BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)", "methodShortName": "BuildRenderTree(...)", "fileIndex": 0, "line": 20,
-    "metrics": [
-      { "value": 702, "exceeded": true },
-      { "value": 26, "exceeded": true },
-    ]},
-  {
     "assembly": "se-24.frontend", "class": "se_24.frontend.Components.Pages.FinderGame", "reportPath": "se_24.frontend_FinderGame.html", "methodName": "BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)", "methodShortName": "BuildRenderTree(...)", "fileIndex": 0, "line": 6,
     "metrics": [
       { "value": 441, "exceeded": true },
@@ -296,7 +288,7 @@ var riskHotspots = [
       { "value": 10, "exceeded": false },
     ]},
   {
-    "assembly": "se-24.backend", "class": "se_24.backend.Controllers.ScoreController", "reportPath": "se_24.backend_ScoreController.html", "methodName": "SaveScore(se_24.shared.src.Shared.Score)", "methodShortName": "SaveScore(...)", "fileIndex": 0, "line": 51,
+    "assembly": "se-24.backend", "class": "se_24.backend.Controllers.ScoreController", "reportPath": "se_24.backend_ScoreController.html", "methodName": "SaveScore(se_24.shared.src.Shared.Score)", "methodShortName": "SaveScore(...)", "fileIndex": 0, "line": 50,
     "metrics": [
       { "value": 72, "exceeded": true },
       { "value": 8, "exceeded": false },
@@ -308,15 +300,9 @@ var riskHotspots = [
       { "value": 8, "exceeded": false },
     ]},
   {
-    "assembly": "se-24.frontend", "class": "se_24.frontend.Components.Pages.BlockGame", "reportPath": "se_24.frontend_BlockGame.html", "methodName": "OnPlayerClick()", "methodShortName": "OnPlayerClick()", "fileIndex": 1, "line": 42,
-    "metrics": [
-      { "value": 72, "exceeded": true },
-      { "value": 8, "exceeded": false },
-    ]},
-  {
     "assembly": "se-24.frontend", "class": "se_24.frontend.Components.Pages.FinderGame", "reportPath": "se_24.frontend_FinderGame.html", "methodName": "CountDownTimer(System.Object,System.Timers.ElapsedEventArgs)", "methodShortName": "CountDownTimer(...)", "fileIndex": 1, "line": 104,
     "metrics": [
-      { "value": 72, "exceeded": true },
+      { "value": 51, "exceeded": true },
       { "value": 8, "exceeded": false },
     ]},
   {
@@ -342,6 +328,12 @@ var riskHotspots = [
     "metrics": [
       { "value": 42, "exceeded": true },
       { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "se-24.frontend", "class": "se_24.frontend.Components.Pages.BlockGame", "reportPath": "se_24.frontend_BlockGame.html", "methodName": "BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)", "methodShortName": "BuildRenderTree(...)", "fileIndex": 0, "line": 20,
+    "metrics": [
+      { "value": 28, "exceeded": false },
+      { "value": 26, "exceeded": true },
     ]},
 ];
 

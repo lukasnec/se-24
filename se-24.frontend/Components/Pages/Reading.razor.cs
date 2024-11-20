@@ -101,7 +101,8 @@ namespace Components.Pages
                 if (!isReadingScreen)
                     break;
                 taskTimer--;
-                OnUIUpdate?.Invoke();
+                //OnUIUpdate?.Invoke();
+                InvokeAsync(OnUIUpdate);
                 await Task.Delay(1000);
             }
 
