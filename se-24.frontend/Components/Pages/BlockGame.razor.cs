@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using se_24.shared.src.Shared;
 using src.Enums;
 using src.Games.BlockGame;
 
@@ -13,11 +14,15 @@ namespace se_24.frontend.Components.Pages
         private List<GameMove> Sequence { get; set; } = new List<GameMove>();
 
         private PlayerStats playerStats = new PlayerStats(0);
+        private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
         private int CurrentStep { get; set; } = 0;
         private string statusMessage = "Press 'Start New Round' to begin.";
         private bool isAnimatingSequence = false;
+        private bool showFinalScore = false;
         private int? activeSquare = null;
         private int? clickedSquare = null;
+        private int score = 0;
+        private string username = string.Empty;
 
         private GameState CurrentGameState { get; set; } = GameState.Waiting;
 
@@ -61,6 +66,7 @@ namespace se_24.frontend.Components.Pages
             {
                 statusMessage = "Wrong! Game over. Press 'Start New Round' to try again.";
                 CurrentGameState = GameState.Failed;
+                showFinalScore = true;
                 ResetGame();
             }
             StateHasChanged();
@@ -68,6 +74,7 @@ namespace se_24.frontend.Components.Pages
 
         private async void StartNewRound()
         {
+            showFinalScore = false;
             isAnimatingSequence = true;
             statusMessage = "Watch the sequence...";
             CurrentGameState = GameState.Started;
@@ -129,5 +136,50 @@ namespace se_24.frontend.Components.Pages
         private bool IsSquareClicked(int squareId) => clickedSquare == squareId;
 
         private bool DisableSquareClick() => CurrentGameState != GameState.Started;
+
+        public void CalculateScore()
+        {
+            score = playerStats.CorrectSequenceCount;
+        }
+
+        public async Task SaveScore()
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
+            {
+                username = _usernameGenerator.GenerateGuestName();
+            }
+            Score score = new Score
+            {
+                PlayerName = username,
+                GameName = "BlockGame",
+                value = this.score
+            };
+
+            string url = "https://localhost:7077/api/score";
+
+            using var httpClient = new HttpClient();
+
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, score);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Score successfully posted!");
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Response: " + responseBody);
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to post score. Status Code: {response.StatusCode}");
+                    string error = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Error: " + error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while posting the score: " + ex.Message);
+            }
+        }
     }
 }

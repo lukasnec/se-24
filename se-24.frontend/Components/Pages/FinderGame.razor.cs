@@ -9,8 +9,12 @@ namespace se_24.frontend.Components.Pages;
 public partial class FinderGame
 {
     [Inject] private NavigationManager NavigationManager { get; set; }
+    private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
 
     private bool isLoading = false;
+    private bool completedLevels = false;
+    private int score = 0;
+    private string username = string.Empty;
 
     private string selectedDifficulty = string.Empty;
     private GameState gameState = GameState.Waiting;
@@ -23,6 +27,8 @@ public partial class FinderGame
     private static System.Timers.Timer timer;
     private int defaultTime = 20; // Time given for a level
     private int counter = 10; // Time shown to user
+    private int totalElapsedTime = 0;
+    private int totalGivenTime = 0;
 
     protected override void OnInitialized()
     {
@@ -83,6 +89,7 @@ public partial class FinderGame
     {
         gameState = GameState.Started;
         counter = defaultTime;
+        totalGivenTime += defaultTime;
         timer = new System.Timers.Timer(1000);
         timer.Elapsed += CountDownTimer;
         timer.Enabled = true;
@@ -97,7 +104,8 @@ public partial class FinderGame
     {
         if (counter > 0 && !CheckIfAllObjectsFound())
         {
-            counter -= 1;
+            counter--;
+            totalElapsedTime++;
         }
         else
         {
@@ -138,33 +146,81 @@ public partial class FinderGame
 
     public void LoadNextLevel()
     {
-        if (currentLevelIndex == currentLevels.Count - 1)
-        {
-            currentLevelIndex = 0;
-            foreach (Level level in currentLevels)
-            {
-                foreach (GameObject obj in level.GameObjects)
-                {
-                    obj.IsFound = false;
-                }
-            }
-        }
-        else
-        {
-            currentLevelIndex++;
-        }
+        currentLevelIndex++;
         defaultTime = currentLevels[currentLevelIndex].GivenTime;
         gameState = GameState.Waiting;
-        objectsFound = 0;
+        objectsFound = 0;   
     }
 
     public bool CheckIfAllObjectsFound()
     {
+        if (currentLevelIndex == currentLevels.Count - 1)
+        {
+            completedLevels = true;
+        }
         return objectsFound == currentLevels[currentLevelIndex].GameObjects.Count;
     }
 
     public GameState GetCurrentGameState()
     {
         return gameState;
+    }
+
+    public void CalculateScore()
+    {
+        int difficultyMultiplier = 1;
+        switch(selectedDifficulty.ToLower())
+        {
+            case "easy":
+                difficultyMultiplier = 1;
+                break;
+            case "medium":
+                difficultyMultiplier = 2;
+                break;
+            case "hard":
+                difficultyMultiplier = 3;
+                break;
+        }
+        score = difficultyMultiplier * (totalGivenTime - totalElapsedTime);
+    }
+
+    public async Task SaveScore()
+    {
+        if(string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
+        {
+            username = _usernameGenerator.GenerateGuestName();
+        }
+        Score score = new Score
+        {
+            PlayerName = username,
+            GameName = "FinderGame",
+            value = this.score
+        };
+
+        string url = "https://localhost:7077/api/score";
+
+        using var httpClient = new HttpClient();
+
+        try
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, score);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Score successfully posted!");
+                string responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Response: " + responseBody);
+            }
+            else
+            {
+                Console.WriteLine($"Failed to post score. Status Code: {response.StatusCode}");
+                string error = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Error: " + error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred while posting the score: " + ex.Message);
+        }
     }
 }

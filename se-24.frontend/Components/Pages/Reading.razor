@@ -43,8 +43,17 @@ else if (isQuestionsScreen)
 }
 else if (isEndScreen)
 {
+    CalculateScore();
     <p>Game Over!</p>
-    <p>Your score is: @score</p>
+    <p>You correctly answered: @correctAnswersNum questions</p>
     <p>Your correct answer percentage is: @percentage%</p>
+    <p>Your final score: @score</p>
+    <div style ="text-align: center">
+        <span>Name:</span>
+        <input type="text" @bind="username" />
+        <button @onclick="SaveScore">
+            Save score
+        </button>
+    </div>
     <button @onclick="OnRestartClick" class="btn btn-dark">Restart</button>
 }
