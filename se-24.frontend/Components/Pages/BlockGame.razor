@@ -30,6 +30,19 @@ else if (CurrentGameState == GameState.Started)
     <button @onclick="EndGame">End Game</button>
 }
 
+@if (showFinalScore)
+{
+    CalculateScore();
+    <div style="text-align: center">
+        <p>Your score: @score</p>
+        <span>Name:</span>
+        <input type="text" @bind="username" />
+        <button @onclick="SaveScore">
+            Save score
+        </button>
+    </div>
+}
+
 <style>
     .grid {
         display: grid;

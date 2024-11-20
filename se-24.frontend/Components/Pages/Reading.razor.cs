@@ -2,6 +2,7 @@
 using src.Games.ReadingGame;
 using se_24.shared.src.Games.ReadingGame;
 using System.Text.Json;
+using se_24.shared.src.Shared;
 
 namespace Components.Pages
 {
@@ -9,6 +10,7 @@ namespace Components.Pages
     {
         private List<ReadingLevel> readingLevels = [];
         public List<ReadingQuestion> questions { get; set; } = [];
+        private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
         public Action? OnUIUpdate { get; set; }
         public int level = 1;
         public int taskTimer = 60;
@@ -32,7 +34,9 @@ namespace Components.Pages
 
         public int readingTime = 60;
         public double percentage = 0;
+        public int correctAnswersNum = 0;
         public int score = 0;
+        public string username = string.Empty;
         public string correct = "";
 
         [Parameter]
@@ -119,7 +123,7 @@ namespace Components.Pages
         {
             if (answerNumber == questions[currentQuestion - 1].CorrectAnswer)
             {
-                score++;
+                correctAnswersNum++;
                 correct = "Correct!";
             }
             else
@@ -169,7 +173,7 @@ namespace Components.Pages
         // Function to end the level
         public void OnEndLevel()
         {
-            percentage = Math.Round(questions.GetCorrectPercentage(score),2);
+            percentage = Math.Round(questions.GetCorrectPercentage(correctAnswersNum),2);
             isQuestionsScreen = false;
             isEndScreen = true;
         }
@@ -180,9 +184,53 @@ namespace Components.Pages
             isEndScreen = false;
             isStartScreen = true;
             isEndButtonEnabled = false;
-            score = 0;
+            correctAnswersNum = 0;
             taskTimer = readingTime;
             currentQuestion = 1;
+        }
+
+        public void CalculateScore()
+        {
+            score = level * correctAnswersNum * 100;
+        }
+        public async Task SaveScore()
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
+            {
+                username = _usernameGenerator.GenerateGuestName();
+            }
+            Score score = new Score
+            {
+                PlayerName = username,
+                GameName = "ReadingGame",
+                value = this.score
+            };
+
+            string url = "https://localhost:7077/api/score";
+
+            using var httpClient = new HttpClient();
+
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, score);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Score successfully posted!");
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Response: " + responseBody);
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to post score. Status Code: {response.StatusCode}");
+                    string error = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Error: " + error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while posting the score: " + ex.Message);
+            }
         }
     }
 }

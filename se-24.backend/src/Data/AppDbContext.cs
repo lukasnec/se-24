@@ -12,6 +12,7 @@ namespace se_24.backend.src.Data
         public DbSet<ReadingQuestion> ReadingQuestions { get; set; }
         public DbSet<Level> FinderLevels { get; set; }
         public DbSet<GameObject> FinderLevelGameObjects { get; set; }
+        public DbSet<Score> Scores { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,6 +34,7 @@ namespace se_24.backend.src.Data
             modelBuilder.Entity<ReadingQuestion>().HasKey(rq => rq.Id);
             modelBuilder.Entity<GameObject>().HasKey(go => go.Id);
             modelBuilder.Entity<Level>().HasKey(l => l.Id);
+            modelBuilder.Entity<Score>().HasKey(s => s.Id);
             modelBuilder.Entity<GameObject>()
                         .OwnsOne(g => g.Position);
 

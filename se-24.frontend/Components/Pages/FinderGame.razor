@@ -90,14 +90,38 @@ else
                         padding: 10px;
                         background-color: white;
                         border-radius: 10px;">
-                You found all the objects. Congratulations!
+                @if(!completedLevels)
+                {
+                    <p>You found all the objects. Congratulations!</p>
+                }
+                else
+                {
+                    <p>You completed all the levels. Congratulations!</p>
+                }
                 <div style="text-align: center">
                     <button @onclick="ReturnToHomePage">
                         Try other games
                     </button>
-                    <button @onclick="LoadNextLevel">
-                        Next level
-                    </button>
+                    @if (!completedLevels)
+                    {
+                        <button @onclick="LoadNextLevel">
+                            Next level
+                        </button>
+                    }
+                    else
+                    {
+                        CalculateScore();
+                        <div style="text-align: center">
+                            <p>Your score: @score</p>
+                            <span>Name:</span>
+                            <input type="text" @bind="username"/>
+                            <button @onclick="SaveScore">
+                                Save score
+                            </button>
+                        </div>
+                        
+                    }
+                    
                 </div>
             </div>
         }
