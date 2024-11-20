@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "se-24.backend", "se-24.back
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "se-24.shared", "se-24.shared\se-24.shared.csproj", "{A7445F5B-85B6-4D8E-857C-B071995EA65A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "se-24.tests", "se-24.tests\se-24.tests.csproj", "{F8FF3923-38CF-4671-AF4C-2BC2C7530F55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A7445F5B-85B6-4D8E-857C-B071995EA65A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7445F5B-85B6-4D8E-857C-B071995EA65A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7445F5B-85B6-4D8E-857C-B071995EA65A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8FF3923-38CF-4671-AF4C-2BC2C7530F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8FF3923-38CF-4671-AF4C-2BC2C7530F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8FF3923-38CF-4671-AF4C-2BC2C7530F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8FF3923-38CF-4671-AF4C-2BC2C7530F55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
