@@ -8,8 +8,17 @@
 
 @if (isStartScreen)
 {
-    <p>Click the button below to start the reading level.</p>
-    <button @onclick="OnStartClick" class="btn btn-dark">Start Reading Level</button>
+    if(errorHappend)
+    {
+        <div style="text-align: center">
+            <span>@errorMessage</span>
+        </div>
+    }
+    else
+    {
+        <p>Click the button below to start the reading level.</p>
+        <button @onclick="OnStartClick" class="btn btn-dark">Start Reading Level</button>
+    }
 }
 else if (isReadingScreen)
 {
