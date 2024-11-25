@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using se_24.backend.src.Data;
-using se_24.shared.src.Games.FinderGame;
+using se_24.backend.src.Interfaces;
 using se_24.shared.src.Games.ReadingGame;
 
 namespace se_24.backend.Controllers
@@ -10,21 +8,24 @@ namespace se_24.backend.Controllers
     [ApiController]
     public class ReadingLevelsController : ControllerBase
     {
-        private readonly IDbContextFactory<AppDbContext> _dbFactory;
-        public ReadingLevelsController(IDbContextFactory<AppDbContext> DbFactory)
+        private readonly IReadingLevelRepository _readingLevelRepository;
+        public ReadingLevelsController(IReadingLevelRepository readingLevelRepository)
         {
-            _dbFactory = DbFactory;
+            _readingLevelRepository = readingLevelRepository;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ReadingLevel>> GetReadingGameLevels()
+        {
+            var levels = await _readingLevelRepository.GetReadingGameLevels();
+            return Ok(levels);
         }
 
         [HttpGet("{readingLevel}")]
-        public List<ReadingLevel> GetReadingGameLevels(int readingLevel)
+        public async Task<ActionResult<ReadingLevel>> GetReadingGameLevelsByReadingLevel(int readingLevel)
         {
-            using var dbContext = _dbFactory.CreateDbContext();
-            var levels = dbContext.ReadingLevels
-                .Include(rl => rl.Questions)
-                .Where(level => level.Level == readingLevel)
-                .ToList();
-            return levels;
+            var levels = await _readingLevelRepository.GetReadingGameLevelsByReadingLevel(readingLevel);
+            return Ok(levels);
         }
     }
 }
