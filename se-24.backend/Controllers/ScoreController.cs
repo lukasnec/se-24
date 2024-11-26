@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using se_24.backend.src.Data;
+using se_24.backend.src.Interfaces;
 using se_24.shared.src.Shared;
 
 namespace se_24.backend.Controllers
@@ -9,60 +8,52 @@ namespace se_24.backend.Controllers
     [ApiController]
     public class ScoreController : ControllerBase
     {
-        private readonly IDbContextFactory<AppDbContext> _dbFactory;
-        public ScoreController(IDbContextFactory<AppDbContext> DbFactory)
+        private readonly IScoreRepository _scoreRepository;
+        public ScoreController(IScoreRepository scoreRepository)
         {
-            _dbFactory = DbFactory;
+            _scoreRepository = scoreRepository;
         }
 
         [HttpGet]
-        public List<Score> GetScoresByGameName()
+        public async Task<ActionResult<Score>> GetScores()
         {
-            using var dbContext = _dbFactory.CreateDbContext();
-            var scores = dbContext.Scores.ToList();
-            return scores;
+            var scores = await _scoreRepository.GetScores();
+            return Ok(scores);
         }
 
         [HttpGet("by-game/{gameName}")]
-        public List<Score> GetScoresByGameName(string gameName)
+        public async Task<ActionResult<Score>> GetScoresByGameName(string gameName)
         {
-            using var dbContext = _dbFactory.CreateDbContext();
-            var scores = dbContext.Scores
-                .Where(score => score.GameName == gameName)
-                .ToList();
-            return scores;
+            var scores = await _scoreRepository.GetScoresByGameName(gameName);
+            return Ok(scores);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetScoreById(int id)
+        public async Task<IActionResult> GetScoreById(int id)
         {
-            using var dbContext = _dbFactory.CreateDbContext();
-            var score = dbContext.Scores.Find(id);
-            if (score == null)
+            try
             {
-                return NotFound();
+                var score = await _scoreRepository.GetScoreById(id);
+                return Ok(score);
             }
-            return Ok(score);
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
-        public IActionResult SaveScore([FromBody] Score score)
+        public async Task<IActionResult> SaveScore(Score score)
         {
-            if (score == null)
+            try
             {
-                return BadRequest("Score object is null.");
+                await _scoreRepository.SaveScore(score);
+                return CreatedAtAction(nameof(GetScoreById), new { id = score.Id }, score);
             }
-
-            if (string.IsNullOrEmpty(score.GameName) || string.IsNullOrEmpty(score.PlayerName) || score.value < 0)
+            catch (Exception ex)
             {
-                return BadRequest("Invalid score data.");
+                return BadRequest(ex.Message);
             }
-
-            using var dbContext = _dbFactory.CreateDbContext();
-            dbContext.Scores.Add(score);
-            dbContext.SaveChanges();
-
-            return CreatedAtAction(nameof(GetScoreById), new { id = score.Id }, score);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using se_24.backend.src.Data;
+using se_24.backend.src.Interfaces;
 using se_24.shared.src.Games.FinderGame;
 
 namespace se_24.backend.Controllers
@@ -9,21 +10,24 @@ namespace se_24.backend.Controllers
     [ApiController]
     public class FinderLevelsController : ControllerBase
     {
-        private readonly IDbContextFactory<AppDbContext> _dbFactory;
-        public FinderLevelsController(IDbContextFactory<AppDbContext> DbFactory) 
+        private readonly IFinderLevelRepository _finderLevelRepository;
+        public FinderLevelsController(IFinderLevelRepository finderLevelRepository) 
         {
-            _dbFactory = DbFactory;
+            _finderLevelRepository = finderLevelRepository;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Level>> GetFinderGameLevels()
+        {
+            var levels = await _finderLevelRepository.GetFinderGameLevels();
+            return Ok(levels);
         }
 
         [HttpGet("{difficulty}")]
-        public List<Level> GetFinderGameLevels(string difficulty)
+        public async Task<ActionResult<Level>> GetFinderGameLevelsByDifficulty(string difficulty)
         {
-            using var dbContext = _dbFactory.CreateDbContext();
-            var levels = dbContext.FinderLevels
-                .Include(l => l.GameObjects)
-                .Where(level => level.Difficulty.ToLower() == difficulty.ToLower())
-                .ToList();
-            return levels;
+            var levels = await _finderLevelRepository.GetFinderGameLevelsByDifficulty(difficulty);
+            return Ok(levels);
         }
     }
 }

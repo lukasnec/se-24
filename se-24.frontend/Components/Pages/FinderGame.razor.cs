@@ -3,12 +3,14 @@ using se_24.shared.src.Games.FinderGame;
 using src.Enums;
 using se_24.shared.src.Shared;
 using System.Text.Json;
+using se_24.shared.src.Exceptions;
 
 namespace se_24.frontend.Components.Pages;
 
 public partial class FinderGame
 {
     [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private ILogger<FinderGame> Logger {  get; set; }
     private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
 
     private bool isLoading = false;
@@ -16,6 +18,8 @@ public partial class FinderGame
     public int score = 0;
     public string username = string.Empty;
 
+    private bool errorHappend = false;
+    private string errorMessage = string.Empty;
     public string selectedDifficulty = string.Empty;
     private GameState gameState = GameState.Waiting;
     public int objectsFound = 0;
@@ -55,8 +59,7 @@ public partial class FinderGame
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error fetching levels: {ex.Message}");
-            throw;
+            throw new ApiException(ex.Message);
         }
     }
 
@@ -74,10 +77,11 @@ public partial class FinderGame
             }
             Console.WriteLine(currentLevels.Count);
         }
-        catch (Exception ex)
+        catch (ApiException ex)
         {
-            Console.WriteLine($"Error setting difficulty: {ex.Message}");
-            throw;
+            Logger.LogError(ex.Message);
+            errorMessage = "Failed loading levels! Try again later.";
+            errorHappend = true;
         }
         finally
         {

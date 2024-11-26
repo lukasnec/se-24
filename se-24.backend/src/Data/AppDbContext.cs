@@ -14,18 +14,9 @@ namespace se_24.backend.src.Data
         public DbSet<GameObject> FinderLevelGameObjects { get; set; }
         public DbSet<Score> Scores { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
-                    .AddEnvironmentVariables()
-                    .Build();
 
-                optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -3,11 +3,13 @@ using src.Games.ReadingGame;
 using se_24.shared.src.Games.ReadingGame;
 using System.Text.Json;
 using se_24.shared.src.Shared;
+using se_24.shared.src.Exceptions;
 
 namespace Components.Pages
 {
     public partial class Reading
     {
+        [Inject] private ILogger<Reading> Logger { get; set; }
         private List<ReadingLevel> readingLevels = [];
         public List<ReadingQuestion> questions { get; set; } = [];
         private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
@@ -39,6 +41,9 @@ namespace Components.Pages
         public string username = string.Empty;
         public string correct = "";
 
+        public bool errorHappend = false;
+        public string errorMessage = string.Empty;
+
         [Parameter]
         public int Level { get; set; } = 1;
 
@@ -47,15 +52,25 @@ namespace Components.Pages
         {
             level = Level;
             OnUIUpdate = StateHasChanged;
-            readingLevels = await GetReadingLevels(level); //_levelLoader.LoadAllLevels<ReadingLevel>("wwwroot/Levels/ReadingGame");
-            ReadingLevel selectedLevel = readingLevels.FirstOrDefault(readingLevel => readingLevel.Level == level);
-            if (selectedLevel != null)
+            try
             {
-                readingTime = selectedLevel.ReadingTime;
-                text = selectedLevel.Text;
-                questions = selectedLevel.Questions;
-                numberOfQuestions = questions.Count;
+                readingLevels = await GetReadingLevels(level);
+                ReadingLevel selectedLevel = readingLevels.FirstOrDefault(readingLevel => readingLevel.Level == level);
+                if (selectedLevel != null)
+                {
+                    readingTime = selectedLevel.ReadingTime;
+                    text = selectedLevel.Text;
+                    questions = selectedLevel.Questions;
+                    numberOfQuestions = questions.Count;
+                }
             }
+            catch (ApiException ex)
+            {
+                Logger.LogError(ex.Message);
+                errorMessage = "Failed loading text! Try again later.";
+                errorHappend = true;
+            }
+            
         }
 
         public async Task<List<ReadingLevel>> GetReadingLevels(int level)
@@ -78,8 +93,7 @@ namespace Components.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching levels: {ex.Message}");
-                throw;
+                throw new ApiException(ex.Message);
             }
         }
 
