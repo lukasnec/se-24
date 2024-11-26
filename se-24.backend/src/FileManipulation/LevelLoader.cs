@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
+﻿using se_24.backend.src.Interfaces;
+using System.Text.Json;
 
 namespace se_24.backend.src.FileManipulation
 {
-    public class LevelLoader
+    public class LevelLoader : ILevelLoader
     {
         public List<T> LoadAllLevels<T>(string directoryPath)
         {
