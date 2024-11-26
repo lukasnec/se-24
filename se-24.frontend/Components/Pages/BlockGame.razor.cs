@@ -11,6 +11,7 @@ namespace se_24.frontend.Components.Pages
         // Static Random instance for randomness
         private static readonly Random random = new Random();
 
+        [Inject] private HttpClient HttpClient { get; set; }
         public List<GameMove> Sequence { get; set; } = new List<GameMove>();
 
         public PlayerStats playerStats = new PlayerStats(0);
@@ -155,13 +156,11 @@ namespace se_24.frontend.Components.Pages
                 value = this.score
             };
 
-            string url = "https://localhost:7077/api/score";
-
-            using var httpClient = new HttpClient();
+            string url = "score";
 
             try
             {
-                HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, score);
+                HttpResponseMessage response = await HttpClient.PostAsJsonAsync(url, score);
 
                 if (response.IsSuccessStatusCode)
                 {

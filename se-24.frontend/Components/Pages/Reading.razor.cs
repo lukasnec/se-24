@@ -10,6 +10,7 @@ namespace Components.Pages
     public partial class Reading
     {
         [Inject] private ILogger<Reading> Logger { get; set; }
+        [Inject] private HttpClient HttpClient { get; set; }
         private List<ReadingLevel> readingLevels = [];
         public List<ReadingQuestion> questions { get; set; } = [];
         private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
@@ -75,21 +76,18 @@ namespace Components.Pages
 
         public async Task<List<ReadingLevel>> GetReadingLevels(int level)
         {
-            string url = $"https://localhost:7077/api/ReadingLevels/{level}";
+            string url = $"ReadingLevels/{level}";
 
             try
             {
-                using (HttpClient client = new HttpClient())
+                HttpResponseMessage response = await HttpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    var options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    return JsonSerializer.Deserialize<List<ReadingLevel>>(jsonResponse, options);
-                }
+                    PropertyNameCaseInsensitive = true
+                };
+                return JsonSerializer.Deserialize<List<ReadingLevel>>(jsonResponse, options);
             }
             catch (Exception ex)
             {
@@ -223,11 +221,9 @@ namespace Components.Pages
 
             string url = "https://localhost:7077/api/score";
 
-            using var httpClient = new HttpClient();
-
             try
             {
-                HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, score);
+                HttpResponseMessage response = await HttpClient.PostAsJsonAsync(url, score);
 
                 if (response.IsSuccessStatusCode)
                 {

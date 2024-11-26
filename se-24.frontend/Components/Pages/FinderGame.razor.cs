@@ -11,6 +11,7 @@ public partial class FinderGame
 {
     [Inject] private NavigationManager NavigationManager { get; set; }
     [Inject] private ILogger<FinderGame> Logger {  get; set; }
+    [Inject] private HttpClient HttpClient { get; set; }
     private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
 
     private bool isLoading = false;
@@ -41,21 +42,18 @@ public partial class FinderGame
 
     public async Task<List<Level>> GetGameLevels(string difficulty)
     {
-        string url = $"https://localhost:7077/api/FinderLevels/{difficulty}";
+        string url = $"FinderLevels/{difficulty}";
 
         try
         {
-            using (HttpClient client = new HttpClient())
+            HttpResponseMessage response = await HttpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
             {
-                HttpResponseMessage response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                string jsonResponse = await response.Content.ReadAsStringAsync();
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                return JsonSerializer.Deserialize<List<Level>>(jsonResponse, options);
-            }
+                PropertyNameCaseInsensitive = true
+            };
+            return JsonSerializer.Deserialize<List<Level>>(jsonResponse, options);
         }
         catch (Exception ex)
         {
@@ -201,13 +199,11 @@ public partial class FinderGame
             value = this.score
         };
 
-        string url = "https://localhost:7077/api/score";
-
-        using var httpClient = new HttpClient();
+        string url = "score";
 
         try
         {
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, score);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(url, score);
 
             if (response.IsSuccessStatusCode)
             {
