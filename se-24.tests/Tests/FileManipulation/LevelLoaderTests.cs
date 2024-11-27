@@ -7,11 +7,11 @@ namespace se_24.tests.Tests.FileManipulation
 {
     public class LevelLoaderTests
     {
-        private readonly LevelLoader _levelLoader;
+        private readonly LevelLoader<ReadingLevel> _readingLevelLoader;
 
         public LevelLoaderTests()
         {
-            _levelLoader = new LevelLoader();
+            _readingLevelLoader = new LevelLoader<ReadingLevel>();
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace se_24.tests.Tests.FileManipulation
             File.WriteAllText(Path.Combine(directoryPath, "level1.json"), level1Json);
             File.WriteAllText(Path.Combine(directoryPath, "level2.json"), level2Json);
 
-            var levels = _levelLoader.LoadAllLevels<ReadingLevel>(directoryPath);
+            var levels = _readingLevelLoader.LoadAllLevels(directoryPath);
 
             Assert.Equal(2, levels.Count);
             Assert.Equal(1, levels[0].Level);
@@ -41,7 +41,7 @@ namespace se_24.tests.Tests.FileManipulation
             string directoryPath = "TestLevels";
             Directory.CreateDirectory(directoryPath);
 
-            var levels = _levelLoader.LoadAllLevels<ReadingLevel>(directoryPath);
+            var levels = _readingLevelLoader.LoadAllLevels(directoryPath);
 
             Assert.Empty(levels);
 
@@ -55,7 +55,7 @@ namespace se_24.tests.Tests.FileManipulation
             var json = JsonSerializer.Serialize(level);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
 
-            var deserializedLevel = _levelLoader.LoadLevel<ReadingLevel>(stream);
+            var deserializedLevel = _readingLevelLoader.LoadLevel(stream);
 
             Assert.NotNull(deserializedLevel);
             Assert.Equal(level.Level, deserializedLevel.Level);
@@ -67,7 +67,7 @@ namespace se_24.tests.Tests.FileManipulation
             var invalidJson = "Invalid JSON content";
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(invalidJson));
 
-            Assert.Throws<JsonException>(() => _levelLoader.LoadLevel<ReadingLevel>(stream));
+            Assert.Throws<JsonException>(() => _readingLevelLoader.LoadLevel(stream));
         }
     }
 }

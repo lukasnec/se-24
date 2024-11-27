@@ -10,11 +10,17 @@ namespace se_24.backend.Controllers
     public class LevelLoadFromFileController : ControllerBase
     {
         private readonly ILevelFilesRepository _levelFilesRepository;
-        private readonly ILevelLoader _levelLoader;
-        public LevelLoadFromFileController(ILevelFilesRepository levelFilesRepository, ILevelLoader levelLoader)
+        private readonly ILevelLoader<Level> _finderLevelLoader;
+        private readonly ILevelLoader<ReadingLevel> _readingLevelLoader;
+        public LevelLoadFromFileController(
+            ILevelFilesRepository levelFilesRepository, 
+            ILevelLoader<Level> finderLevelLoader,
+            ILevelLoader<ReadingLevel> readingLevelLoader
+            )
         {
             _levelFilesRepository = levelFilesRepository;
-            _levelLoader = levelLoader;
+            _finderLevelLoader = finderLevelLoader;
+            _readingLevelLoader = readingLevelLoader;
         }
 
         [HttpGet("FinderGameLevels")]
@@ -23,7 +29,7 @@ namespace se_24.backend.Controllers
             string path = "Files/Levels/FinderGame/";
             try
             {
-                var levels = _levelLoader.LoadAllLevels<Level>(path);
+                var levels = _finderLevelLoader.LoadAllLevels(path);
                 _levelFilesRepository.SaveFinderGameLevels(levels);
                 return Ok("Added " + levels.Count + " levels");
             }
@@ -40,7 +46,7 @@ namespace se_24.backend.Controllers
             string path = "Files/Levels/ReadingGame/";
             try
             {
-                var levels = _levelLoader.LoadAllLevels<ReadingLevel>(path);
+                var levels = _readingLevelLoader.LoadAllLevels(path);
                 _levelFilesRepository.SaveReadingGameLevels(levels);
                 return Ok("Added " + levels.Count + " levels");
             }
