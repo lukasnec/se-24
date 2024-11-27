@@ -12,7 +12,7 @@ using se_24.backend.src.Data;
 namespace se_24.backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241119234959_ScoreAddition")]
+    [Migration("20241127115447_ScoreAddition")]
     partial class ScoreAddition
     {
         /// <inheritdoc />
