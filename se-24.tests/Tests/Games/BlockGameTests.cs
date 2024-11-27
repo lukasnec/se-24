@@ -2,7 +2,7 @@
 using src.Enums;
 using Bunit;
 
-namespace se_24.tests.Tests
+namespace se_24.tests.Tests.Games
 {
     public class BlockGameTests : TestContext
     {
