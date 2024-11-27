@@ -43,7 +43,7 @@ namespace se_24.backend.src.Repositories
                 throw new Exception("Score object is null.");
             }
 
-            if (string.IsNullOrEmpty(score.GameName) || string.IsNullOrEmpty(score.PlayerName) || score.value < 0)
+            if (string.IsNullOrEmpty(score.GameName) || string.IsNullOrEmpty(score.PlayerName) || score.Value < 0)
             {
                 throw new Exception("Invalid score data.");
             }

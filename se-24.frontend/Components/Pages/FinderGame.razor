@@ -10,22 +10,31 @@
         <div style="position:relative; padding: 10px; text-align: center;">
             <h3>Choose difficulty</h3>
             <div>
-                <button @onclick="@(() => SetDifficulty("Easy"))"
+                <button @onclick="@(async () => {
+                    SetDifficulty("Easy");
+                    await GetGameLevels();
+                })"
                         class="btn-rounded">
                     Easy
                 </button>
-                <button @onclick="@(() => SetDifficulty("Medium"))"
+                <button @onclick="@(async () => {
+                    SetDifficulty("Medium");
+                    await GetGameLevels();
+                })"
                         class="btn-rounded">
                     Medium
                 </button>
-                <button @onclick="@(() => SetDifficulty("Hard"))"
+                <button @onclick="@(async () => {
+                    SetDifficulty("Hard");
+                    await GetGameLevels();
+                })"
                         class="btn-rounded">
                     Hard
                 </button>
             </div>
         </div>
     }
-    else if(errorHappend)
+    else if(errorHappened)
     {
         <div style="text-align: center">
             <span>@errorMessage</span>
@@ -124,6 +133,10 @@ else
                             <button @onclick="SaveScore">
                                 Save score
                             </button>
+                            @if(scoreSaveStatusMessage != string.Empty)
+                            {
+                                <p>@scoreSaveStatusMessage</p>
+                            }
                         </div>
                         
                     }

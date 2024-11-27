@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using se_24.shared.src.Shared;
+using se_24.shared.src.Utilities;
 using src.Enums;
 using src.Games.BlockGame;
 
@@ -11,43 +13,46 @@ namespace se_24.frontend.Components.Pages
         // Static Random instance for randomness
         private static readonly Random random = new Random();
 
-        private List<GameMove> Sequence { get; set; } = new List<GameMove>();
+        [Inject] private ILogger<FinderGame> Logger { get; set; }
+        [Inject] private HttpClient HttpClient { get; set; }
+        public List<GameMove> Sequence { get; set; } = new List<GameMove>();
 
-        private PlayerStats playerStats = new PlayerStats(0);
+        public PlayerStats playerStats = new PlayerStats(0);
         private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
-        private int CurrentStep { get; set; } = 0;
-        private string statusMessage = "Press 'Start New Round' to begin.";
+        public int CurrentStep { get; set; } = 0;
+        public string statusMessage = "Press 'Start New Round' to begin.";
         private bool isAnimatingSequence = false;
-        private bool showFinalScore = false;
+        public bool showFinalScore = false;
         private int? activeSquare = null;
         private int? clickedSquare = null;
-        private int score = 0;
-        private string username = string.Empty;
+        public int score = 0;
+        public string username = string.Empty;
+        public string scoreSaveStatusMessage = string.Empty;
 
-        private GameState CurrentGameState { get; set; } = GameState.Waiting;
+        public GameState CurrentGameState { get; set; } = GameState.Waiting;
 
-        private int roundNumber = 1;
+        public int roundNumber = 1;
 
         [Inject] private NavigationManager Navigation { get; set; }
 
-        public void StartGame()
+        public async Task StartGame()
         {
             CurrentGameState = GameState.Started;
             playerStats = new PlayerStats(0);  // Reset the player's correct sequence count using 'record'
             roundNumber = 1;
-            StartNewRound();
+            await StartNewRound();
         }
 
-        private async void OnPlayerClick(int squareId)
+        public async Task OnPlayerClick(int squareId)
         {
             if (isAnimatingSequence || CurrentGameState != GameState.Started) return;
 
             clickedSquare = squareId;
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
 
             await Task.Delay(500);
             clickedSquare = null;
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
 
             if (CheckPlayerInput(squareId))
             {
@@ -59,7 +64,7 @@ namespace se_24.frontend.Components.Pages
                     roundNumber++;
                     CurrentGameState = GameState.Finished;
                     await Task.Delay(1000);
-                    StartNewRound();
+                    await StartNewRound();
                 }
             }
             else
@@ -69,10 +74,10 @@ namespace se_24.frontend.Components.Pages
                 showFinalScore = true;
                 ResetGame();
             }
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
-        private async void StartNewRound()
+        public async Task StartNewRound()
         {
             showFinalScore = false;
             isAnimatingSequence = true;
@@ -84,21 +89,21 @@ namespace se_24.frontend.Components.Pages
             foreach (var move in Sequence)
             {
                 activeSquare = move.SquareId;
-                StateHasChanged();
+                await InvokeAsync(StateHasChanged);
                 await Task.Delay(800); // Delay to show square lit
                 activeSquare = null;
-                StateHasChanged();
+                await InvokeAsync(StateHasChanged);
                 await Task.Delay(300); // Short delay between squares
             }
 
             statusMessage = "Your turn! Repeat the sequence.";
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
             isAnimatingSequence = false;
             CurrentStep = 0;
         }
 
         // Generate a new random sequence of squares for this round
-        private void GenerateNewRandomSequence(int sequenceLength)
+        public void GenerateNewRandomSequence(int sequenceLength)
         {
             Sequence.Clear();
             for (int i = 0; i < sequenceLength; i++)
@@ -108,7 +113,7 @@ namespace se_24.frontend.Components.Pages
             }
         }
 
-        private bool CheckPlayerInput(int input)
+        public bool CheckPlayerInput(int input)
         {
             if (CurrentStep >= Sequence.Count || CurrentStep < 0) return false;
             return Sequence[CurrentStep].SquareId == input;
@@ -152,28 +157,24 @@ namespace se_24.frontend.Components.Pages
             {
                 PlayerName = username,
                 GameName = "BlockGame",
-                value = this.score
+                Value = this.score
             };
 
-            string url = "https://localhost:7077/api/score";
-
-            using var httpClient = new HttpClient();
+            string url = "score";
 
             try
             {
-                HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, score);
+                HttpResponseMessage response = await HttpClient.PostAsJsonAsync(url, score);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Score successfully posted!");
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Response: " + responseBody);
+                    scoreSaveStatusMessage = "Successfully saved score!";
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to post score. Status Code: {response.StatusCode}");
                     string error = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Error: " + error);
+                    scoreSaveStatusMessage = "Failed to save score!";
+                    Logger.LogError(error);
                 }
             }
             catch (Exception ex)

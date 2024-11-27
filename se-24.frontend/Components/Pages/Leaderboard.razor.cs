@@ -1,13 +1,12 @@
-﻿using se_24.shared.src.Games.FinderGame;
-using se_24.shared.src.Games.ReadingGame;
+﻿using Microsoft.AspNetCore.Components;
 using se_24.shared.src.Shared;
 using System.Text.Json;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace se_24.frontend.Components.Pages
 {
     public partial class Leaderboard
     {
+        [Inject] private HttpClient HttpClient { get; set; }
         public List<Score> Scores { get; set; } = new();
         public string selectedGameName = "All";
         public int topRanks = 0;
@@ -21,21 +20,18 @@ namespace se_24.frontend.Components.Pages
 
         public async Task<List<Score>> GetScoresAsync()
         {
-            string url = $"https://localhost:7077/api/Score";
+            string url = $"Score";
 
             try
             {
-                using (HttpClient client = new HttpClient())
+                HttpResponseMessage response = await HttpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    var options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    return JsonSerializer.Deserialize<List<Score>>(jsonResponse, options);
-                }
+                    PropertyNameCaseInsensitive = true
+                };
+                return JsonSerializer.Deserialize<List<Score>>(jsonResponse, options);
             }
             catch (Exception ex)
             {
@@ -46,7 +42,7 @@ namespace se_24.frontend.Components.Pages
 
         private IEnumerable<Score> FilteredScores => Scores
         .Where(s => selectedGameName == "All" || s.GameName == selectedGameName)
-        .OrderByDescending(s => s.value)
+        .OrderByDescending(s => s.Value)
         .Take(topRanks > 0 ? topRanks : Scores.Count);
 
     }

@@ -8,7 +8,7 @@
 
 @if (isStartScreen)
 {
-    if(errorHappend)
+    if(errorHappened)
     {
         <div style="text-align: center">
             <span>@errorMessage</span>
@@ -63,6 +63,10 @@ else if (isEndScreen)
         <button @onclick="SaveScore">
             Save score
         </button>
+        @if (scoreSaveStatusMessage != string.Empty)
+        {
+            <p>@scoreSaveStatusMessage</p>
+        }
     </div>
     <button @onclick="OnRestartClick" class="btn btn-dark">Restart</button>
 }

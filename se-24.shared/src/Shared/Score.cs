@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string PlayerName { get; set; } = string.Empty;
         public string GameName { get; set; } = string.Empty;
-        public int value { get; set; }
+        public int Value { get; set; }
     }
 }

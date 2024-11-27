@@ -40,6 +40,10 @@ else if (CurrentGameState == GameState.Started)
         <button @onclick="SaveScore">
             Save score
         </button>
+        @if (scoreSaveStatusMessage != string.Empty)
+        {
+            <p>@scoreSaveStatusMessage</p>
+        }
     </div>
 }
 
