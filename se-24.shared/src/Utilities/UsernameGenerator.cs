@@ -1,4 +1,4 @@
-﻿namespace se_24.shared.src.Shared
+﻿namespace se_24.shared.src.Utilities
 {
     public class UsernameGenerator
     {
