@@ -43,8 +43,7 @@ namespace se_24.backend.src.FileManipulation
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deserializing level: {ex.Message}");
-                return null;
+                throw;
             }
         }
     }
