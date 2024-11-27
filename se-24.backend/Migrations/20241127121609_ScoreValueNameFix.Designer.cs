@@ -12,7 +12,7 @@ using se_24.backend.src.Data;
 namespace se_24.backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241126232324_ScoreValueNameFix")]
+    [Migration("20241127121609_ScoreValueNameFix")]
     partial class ScoreValueNameFix
     {
         /// <inheritdoc />
