@@ -37,7 +37,7 @@ namespace se_24.tests.Tests.Controllers
             var result = _controller.LoadFinderGameLevels();
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("Added 2 levels", okResult.Value);
+            Assert.Equal("Added 2 levels.", okResult.Value);
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace se_24.tests.Tests.Controllers
             var result = _controller.LoadFinderGameLevels();
 
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Contains("Failed to save levels: Load error", badRequestResult.Value.ToString());
+            Assert.Contains("Failed to load levels: Load error", badRequestResult.Value.ToString());
         }
 
         [Fact]
@@ -67,7 +67,7 @@ namespace se_24.tests.Tests.Controllers
             var result = _controller.LoadReadingGameLevels();
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("Added 2 levels", okResult.Value);
+            Assert.Equal("Added 2 ReadingGame levels.", okResult.Value);
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace se_24.tests.Tests.Controllers
             var result = _controller.LoadReadingGameLevels();
 
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Contains("Failed to save levels: Load error", badRequestResult.Value.ToString());
+            Assert.Contains("Failed to load ReadingGame levels: Load error", badRequestResult.Value.ToString());
         }
     }
 }

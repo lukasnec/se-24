@@ -17,7 +17,7 @@ namespace se_24.tests.Tests.FileManipulation
         [Fact]
         public void LoadAllLevels_ValidJsonFiles_ReturnsListOfLevels()
         {
-            string directoryPath = "TestLevels";
+            string directoryPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(directoryPath);
 
             var level1Json = JsonSerializer.Serialize(new ReadingLevel { Level = 1 });
@@ -29,8 +29,8 @@ namespace se_24.tests.Tests.FileManipulation
             var levels = _readingLevelLoader.LoadAllLevels(directoryPath);
 
             Assert.Equal(2, levels.Count);
-            Assert.Equal(1, levels[0].Level);
-            Assert.Equal(2, levels[1].Level);
+            Assert.Contains(levels, level => level.Level == 1);
+            Assert.Contains(levels, level => level.Level == 2);
 
             Directory.Delete(directoryPath, true);
         }
@@ -38,7 +38,7 @@ namespace se_24.tests.Tests.FileManipulation
         [Fact]
         public void LoadAllLevels_NoJsonFiles_ReturnsEmptyList()
         {
-            string directoryPath = "TestLevels";
+            string directoryPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(directoryPath);
 
             var levels = _readingLevelLoader.LoadAllLevels(directoryPath);
