@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using se_24.backend.src.Interfaces;
+using se_24.backend.src.Repositories;
 using se_24.shared.src.Games.FinderGame;
 using se_24.shared.src.Games.ReadingGame;
+using System.Collections.Concurrent;
 
 namespace se_24.backend.Controllers
 {
@@ -31,14 +33,15 @@ namespace se_24.backend.Controllers
             {
                 var levels = _finderLevelLoader.LoadAllLevels(path);
                 _levelFilesRepository.SaveFinderGameLevels(levels);
-                return Ok("Added " + levels.Count + " levels");
+                return Ok($"Added {levels.Count} levels.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine("Failed to save levels: " + ex.Message + '\n' + ex.InnerException);
-                return BadRequest("Failed to save levels: " + ex.Message + '\n' + ex.InnerException);
+                Console.WriteLine($"Failed to load levels: {ex.Message}");
+                return BadRequest($"Failed to load levels: {ex.Message}");
             }
         }
+
 
         [HttpGet("ReadingGameLevels")]
         public ActionResult LoadReadingGameLevels()
@@ -48,12 +51,12 @@ namespace se_24.backend.Controllers
             {
                 var levels = _readingLevelLoader.LoadAllLevels(path);
                 _levelFilesRepository.SaveReadingGameLevels(levels);
-                return Ok("Added " + levels.Count + " levels");
+                return Ok($"Added {levels.Count} ReadingGame levels.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Failed to save levels: " + ex.Message + '\n' + ex.InnerException);
-                return BadRequest("Failed to save levels: " + ex.Message + '\n' + ex.InnerException);
+                Console.WriteLine($"Failed to load ReadingGame levels: {ex.Message}");
+                return BadRequest($"Failed to load ReadingGame levels: {ex.Message}");
             }
         }
     }

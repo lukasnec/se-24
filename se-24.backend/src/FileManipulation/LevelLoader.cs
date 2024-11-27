@@ -1,4 +1,5 @@
 ﻿using se_24.backend.src.Interfaces;
+using System.Collections.Concurrent;
 using System.Text.Json;
 
 namespace se_24.backend.src.FileManipulation
@@ -7,27 +8,44 @@ namespace se_24.backend.src.FileManipulation
     {
         public List<T> LoadAllLevels(string directoryPath)
         {
-            List<T> levels = [];
+            var levels = new ConcurrentBag<T>();
 
-            // Get all JSON files in the directory
             string[] levelFiles = Directory.GetFiles(directoryPath, "*.json");
 
-            foreach (string file in levelFiles)
+            Parallel.ForEach(levelFiles, file =>
             {
-                // Open the file as a stream
-                using (FileStream fileStream = new(file, FileMode.Open, FileAccess.Read))
+                try
                 {
-                    T level = LoadLevel(fileStream);
-                    levels.Add(level);
+                    using (FileStream fileStream = new(file, FileMode.Open, FileAccess.Read))
+                    {
+                        T level = LoadLevel(fileStream);
+                        if (level != null)
+                        {
+                            levels.Add(level);
+                        }
+                    }
                 }
-            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error processing file {file}: {ex.Message}");
+                }
+            });
 
-            return levels;
+            return levels.ToList();
         }
+
         public T LoadLevel(Stream stream)
         {
-            T level = JsonSerializer.Deserialize<T>(stream);
-            return level;
+            try
+            {
+                T level = JsonSerializer.Deserialize<T>(stream);
+                return level;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deserializing level: {ex.Message}");
+                return null;
+            }
         }
     }
 }
