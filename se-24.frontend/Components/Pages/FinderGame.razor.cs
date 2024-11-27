@@ -4,45 +4,47 @@ using src.Enums;
 using se_24.shared.src.Shared;
 using System.Text.Json;
 using se_24.shared.src.Exceptions;
+using se_24.shared.src.Utilities;
 
 namespace se_24.frontend.Components.Pages;
 
 public partial class FinderGame
 {
-    [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] private ILogger<FinderGame> Logger {  get; set; }
     [Inject] private HttpClient HttpClient { get; set; }
     private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
 
     private bool isLoading = false;
-    private bool completedLevels = false;
+    public bool completedLevels = false;
     public int score = 0;
     public string username = string.Empty;
 
-    private bool errorHappend = false;
+    private bool errorHappened = false;
     private string errorMessage = string.Empty;
     public string selectedDifficulty = string.Empty;
-    private GameState gameState = GameState.Waiting;
+    public GameState gameState = GameState.Waiting;
     public int objectsFound = 0;
 
     private List<Level> levels = [];
-    private List<Level> currentLevels = [];
-    private int currentLevelIndex;
+    public List<Level> currentLevels = [];
+    public int currentLevelIndex;
 
-    private static System.Timers.Timer timer;
+    public static System.Timers.Timer timer;
     public int defaultTime = 20; // Time given for a level
-    private int counter = 10; // Time shown to user
+    public int counter = 10; // Time shown to user
     public int totalElapsedTime = 0;
     public int totalGivenTime = 0;
+    public string scoreSaveStatusMessage = string.Empty;
 
     protected override void OnInitialized()
     {
         currentLevelIndex = 0;
     }
 
-    public async Task<List<Level>> GetGameLevels(string difficulty)
+    public async Task GetGameLevels()
     {
-        string url = $"FinderLevels/{difficulty}";
+        string url = $"FinderLevels/{selectedDifficulty}";
 
         try
         {
@@ -53,7 +55,8 @@ public partial class FinderGame
             {
                 PropertyNameCaseInsensitive = true
             };
-            return JsonSerializer.Deserialize<List<Level>>(jsonResponse, options);
+            currentLevels = JsonSerializer.Deserialize<List<Level>>(jsonResponse, options);
+            isLoading = false;
         }
         catch (Exception ex)
         {
@@ -61,30 +64,10 @@ public partial class FinderGame
         }
     }
 
-    public async Task SetDifficulty(string difficulty)
+    public void SetDifficulty(string difficulty)
     {
         selectedDifficulty = difficulty;
-        try
-        {
-            currentLevels = await GetGameLevels(selectedDifficulty);
-            currentLevels.Sort();
-            isLoading = true;
-            if (currentLevels.Count > 0)
-            {
-                defaultTime = currentLevels[currentLevelIndex].GivenTime;
-            }
-            Console.WriteLine(currentLevels.Count);
-        }
-        catch (ApiException ex)
-        {
-            Logger.LogError(ex.Message);
-            errorMessage = "Failed loading levels! Try again later.";
-            errorHappend = true;
-        }
-        finally
-        {
-            isLoading = false;
-        }
+        isLoading = true;
     }
 
     public void StartGame()
@@ -196,7 +179,7 @@ public partial class FinderGame
         {
             PlayerName = username,
             GameName = "FinderGame",
-            value = this.score
+            Value = this.score
         };
 
         string url = "score";
@@ -207,15 +190,13 @@ public partial class FinderGame
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Score successfully posted!");
-                string responseBody = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Response: " + responseBody);
+                scoreSaveStatusMessage = "Successfully saved score!";           
             }
             else
             {
-                Console.WriteLine($"Failed to post score. Status Code: {response.StatusCode}");
                 string error = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Error: " + error);
+                scoreSaveStatusMessage = "Failed to save score!";
+                Logger.LogError(error);
             }
         }
         catch (Exception ex)

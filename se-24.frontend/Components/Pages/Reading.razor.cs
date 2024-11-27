@@ -4,6 +4,7 @@ using se_24.shared.src.Games.ReadingGame;
 using System.Text.Json;
 using se_24.shared.src.Shared;
 using se_24.shared.src.Exceptions;
+using se_24.shared.src.Utilities;
 
 namespace Components.Pages
 {
@@ -11,7 +12,7 @@ namespace Components.Pages
     {
         [Inject] private ILogger<Reading> Logger { get; set; }
         [Inject] private HttpClient HttpClient { get; set; }
-        private List<ReadingLevel> readingLevels = [];
+        public List<ReadingLevel> readingLevels = [];
         public List<ReadingQuestion> questions { get; set; } = [];
         private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
         public Action? OnUIUpdate { get; set; }
@@ -42,8 +43,9 @@ namespace Components.Pages
         public string username = string.Empty;
         public string correct = "";
 
-        public bool errorHappend = false;
+        public bool errorHappened = false;
         public string errorMessage = string.Empty;
+        public string scoreSaveStatusMessage = string.Empty;
 
         [Parameter]
         public int Level { get; set; } = 1;
@@ -69,7 +71,7 @@ namespace Components.Pages
             {
                 Logger.LogError(ex.Message);
                 errorMessage = "Failed loading text! Try again later.";
-                errorHappend = true;
+                errorHappened = true;
             }
             
         }
@@ -216,10 +218,10 @@ namespace Components.Pages
             {
                 PlayerName = username,
                 GameName = "ReadingGame",
-                value = this.score
+                Value = this.score
             };
 
-            string url = "https://localhost:7077/api/score";
+            string url = "score";
 
             try
             {
@@ -227,15 +229,13 @@ namespace Components.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Score successfully posted!");
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Response: " + responseBody);
+                    scoreSaveStatusMessage = "Successfully saved score!";
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to post score. Status Code: {response.StatusCode}");
                     string error = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Error: " + error);
+                    scoreSaveStatusMessage = "Failed to save score!";
+                    Logger.LogError(error);
                 }
             }
             catch (Exception ex)

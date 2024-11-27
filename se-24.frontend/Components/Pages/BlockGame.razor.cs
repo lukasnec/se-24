@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using se_24.shared.src.Shared;
+using se_24.shared.src.Utilities;
 using src.Enums;
 using src.Games.BlockGame;
 
@@ -11,6 +13,7 @@ namespace se_24.frontend.Components.Pages
         // Static Random instance for randomness
         private static readonly Random random = new Random();
 
+        [Inject] private ILogger<FinderGame> Logger { get; set; }
         [Inject] private HttpClient HttpClient { get; set; }
         public List<GameMove> Sequence { get; set; } = new List<GameMove>();
 
@@ -24,6 +27,7 @@ namespace se_24.frontend.Components.Pages
         private int? clickedSquare = null;
         public int score = 0;
         public string username = string.Empty;
+        public string scoreSaveStatusMessage = string.Empty;
 
         public GameState CurrentGameState { get; set; } = GameState.Waiting;
 
@@ -153,7 +157,7 @@ namespace se_24.frontend.Components.Pages
             {
                 PlayerName = username,
                 GameName = "BlockGame",
-                value = this.score
+                Value = this.score
             };
 
             string url = "score";
@@ -164,15 +168,13 @@ namespace se_24.frontend.Components.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Score successfully posted!");
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Response: " + responseBody);
+                    scoreSaveStatusMessage = "Successfully saved score!";
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to post score. Status Code: {response.StatusCode}");
                     string error = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Error: " + error);
+                    scoreSaveStatusMessage = "Failed to save score!";
+                    Logger.LogError(error);
                 }
             }
             catch (Exception ex)
