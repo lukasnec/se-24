@@ -10,14 +10,16 @@ namespace se_24.tests.Tests.Controllers
     public class LevelLoadFromFileControllerTests
     {
         private readonly Mock<ILevelFilesRepository> _mockRepo;
-        private readonly Mock<ILevelLoader> _mockLevelLoader;
+        private readonly Mock<ILevelLoader<Level>> _mockFinderLevelLoader;
+        private readonly Mock<ILevelLoader<ReadingLevel>> _mockReadingLevelLoader;
         private readonly LevelLoadFromFileController _controller;
 
         public LevelLoadFromFileControllerTests()
         {
             _mockRepo = new Mock<ILevelFilesRepository>();
-            _mockLevelLoader = new Mock<ILevelLoader>();
-            _controller = new LevelLoadFromFileController(_mockRepo.Object, _mockLevelLoader.Object);
+            _mockFinderLevelLoader = new Mock<ILevelLoader<Level>>();
+            _mockReadingLevelLoader = new Mock<ILevelLoader<ReadingLevel>>();
+            _controller = new LevelLoadFromFileController(_mockRepo.Object, _mockFinderLevelLoader.Object, _mockReadingLevelLoader.Object);
         }
 
         [Fact]
@@ -28,7 +30,7 @@ namespace se_24.tests.Tests.Controllers
                 new Level { Id = 1, GivenTime = 60 },
                 new Level { Id = 2, GivenTime = 60 }
             };
-            _mockLevelLoader.Setup(loader => loader.LoadAllLevels<Level>("Files/Levels/FinderGame/"))
+            _mockFinderLevelLoader.Setup(loader => loader.LoadAllLevels("Files/Levels/FinderGame/"))
                 .Returns(mockLevels);
             _mockRepo.Setup(repo => repo.SaveFinderGameLevels(mockLevels));
 
@@ -41,7 +43,7 @@ namespace se_24.tests.Tests.Controllers
         [Fact]
         public void LoadFinderGameLevels_ExceptionThrown_ReturnsBadRequest()
         {
-            _mockLevelLoader.Setup(loader => loader.LoadAllLevels<Level>("Files/Levels/FinderGame/"))
+            _mockFinderLevelLoader.Setup(loader => loader.LoadAllLevels("Files/Levels/FinderGame/"))
                 .Throws(new Exception("Load error"));
 
             var result = _controller.LoadFinderGameLevels();
@@ -58,7 +60,7 @@ namespace se_24.tests.Tests.Controllers
                 new ReadingLevel { Level = 1 },
                 new ReadingLevel { Level = 2 }
             };
-            _mockLevelLoader.Setup(loader => loader.LoadAllLevels<ReadingLevel>("Files/Levels/ReadingGame/"))
+            _mockReadingLevelLoader.Setup(loader => loader.LoadAllLevels("Files/Levels/ReadingGame/"))
                 .Returns(mockLevels);
             _mockRepo.Setup(repo => repo.SaveReadingGameLevels(mockLevels));
 
@@ -71,7 +73,7 @@ namespace se_24.tests.Tests.Controllers
         [Fact]
         public void LoadReadingGameLevels_ExceptionThrown_ReturnsBadRequest()
         {
-            _mockLevelLoader.Setup(loader => loader.LoadAllLevels<ReadingLevel>("Files/Levels/ReadingGame/"))
+            _mockReadingLevelLoader.Setup(loader => loader.LoadAllLevels("Files/Levels/ReadingGame/"))
                 .Throws(new Exception("Load error"));
 
             var result = _controller.LoadReadingGameLevels();

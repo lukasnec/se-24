@@ -3,9 +3,9 @@ using System.Text.Json;
 
 namespace se_24.backend.src.FileManipulation
 {
-    public class LevelLoader : ILevelLoader
+    public class LevelLoader<T> : ILevelLoader<T> where T : class, new()
     {
-        public List<T> LoadAllLevels<T>(string directoryPath)
+        public List<T> LoadAllLevels(string directoryPath)
         {
             List<T> levels = [];
 
@@ -17,14 +17,14 @@ namespace se_24.backend.src.FileManipulation
                 // Open the file as a stream
                 using (FileStream fileStream = new(file, FileMode.Open, FileAccess.Read))
                 {
-                    T level = LoadLevel<T>(fileStream);
+                    T level = LoadLevel(fileStream);
                     levels.Add(level);
                 }
             }
 
             return levels;
         }
-        public T LoadLevel<T>(Stream stream)
+        public T LoadLevel(Stream stream)
         {
             T level = JsonSerializer.Deserialize<T>(stream);
             return level;
