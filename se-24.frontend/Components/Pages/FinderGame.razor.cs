@@ -60,6 +60,9 @@ public partial class FinderGame
         }
         catch (Exception ex)
         {
+            errorMessage = "Failed to load levels! Try again later.";
+            errorHappened = true;
+            Logger.LogError(ex.Message);
             throw new ApiException(ex.Message);
         }
     }
