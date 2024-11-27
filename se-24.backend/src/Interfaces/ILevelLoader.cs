@@ -1,8 +1,8 @@
 ﻿namespace se_24.backend.src.Interfaces
 {
-    public interface ILevelLoader
+    public interface ILevelLoader<T> where T : class, new()
     {
-        List<T> LoadAllLevels<T>(string directoryPath);
-        T LoadLevel<T>(Stream stream);
+        List<T> LoadAllLevels(string directoryPath);
+        T LoadLevel(Stream stream);
     }
 }
