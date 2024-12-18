@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using se_24.backend.Entities;
 using se_24.shared.src.Games.FinderGame;
 using se_24.shared.src.Games.ReadingGame;
 using se_24.shared.src.Shared;
@@ -13,6 +14,7 @@ namespace se_24.backend.src.Data
         public DbSet<Level> FinderLevels { get; set; }
         public DbSet<GameObject> FinderLevelGameObjects { get; set; }
         public DbSet<Score> Scores { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
         {
@@ -28,6 +30,14 @@ namespace se_24.backend.src.Data
             modelBuilder.Entity<Score>().HasKey(s => s.Id);
             modelBuilder.Entity<GameObject>()
                         .OwnsOne(g => g.Position);
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(u => u.Id); // Primary key
+                entity.HasIndex(u => u.Username).IsUnique(); // Ensure unique usernames
+                entity.Property(u => u.PasswordHash).IsRequired();
+                entity.Property(u => u.Email).IsRequired();
+            });
 
             base.OnModelCreating(modelBuilder);
         }

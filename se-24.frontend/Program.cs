@@ -1,4 +1,7 @@
+using se_24.frontend;
 using se_24.frontend.Components;
+using se_24.frontend.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7077/api/") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7077/") });
+
+// Register AuthService
+builder.Services.AddScoped<AuthService>();
 
 var app = builder.Build();
 
