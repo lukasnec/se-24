@@ -6,5 +6,6 @@ namespace se_24.backend.src.Interfaces
     {
         Task<IEnumerable<ReadingLevel>> GetReadingGameLevels();
         Task<IEnumerable<ReadingLevel>> GetReadingGameLevelsByReadingLevel(int readingLevel);
+        Task<int> GetReadingGameLevelsCount();
     }
 }

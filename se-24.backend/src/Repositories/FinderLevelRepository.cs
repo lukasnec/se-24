@@ -28,5 +28,10 @@ namespace se_24.backend.src.Repositories
                 .Where(level => level.Difficulty.ToLower() == difficulty.ToLower())
                 .ToListAsync();
         }
+        public async Task<int> GetFinderGameLevelsCount()
+        {
+            return await _dbContext.FinderLevels.CountAsync();
+        }
+
     }
 }

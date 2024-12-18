@@ -60,7 +60,7 @@ else if (isEndScreen)
     <div style ="text-align: center">
         <span>Name:</span>
         <input type="text" @bind="username" />
-        <button @onclick="SaveScore">
+        <button @onclick="SaveScore" class="btn btn-dark">
             Save score
         </button>
         @if (scoreSaveStatusMessage != string.Empty)
