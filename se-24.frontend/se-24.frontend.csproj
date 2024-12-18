@@ -17,4 +17,10 @@
     <ProjectReference Include="..\se-24.shared\se-24.shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Components\Pages\ReadingLevelSelection.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

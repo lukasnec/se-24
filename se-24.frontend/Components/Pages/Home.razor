@@ -1,29 +1,48 @@
 ﻿@page "/"
+@inject HttpClient Http
+@inject ILogger<Home> Logger
 
-<PageTitle>Home</PageTitle>
-
-<h2>Welcome!</h2>
-
-<div class="outlined-box">
-    <h3>Games</h3>
-    <a href="/findergame">
-        Find The Objects
-    </a>
-    <br />
-    <a href="/reading/1">
-        Reading game. Level: easy
-    </a>
-    <br />
-    <a href="/reading/2">
-        Reading game. Level: medium
-    </a>
-    <br />
-    <a href="/reading/3">
-        Reading game. Level: Hard
-    </a>
-    <br />
-    <a href="/blockgame">
-        Press the block
-    </a>
+<div class="container mt-4">
+    <h3 class="mb-4">GAMES</h3>
+    @if (isLoading)
+    {
+        <div class="text-center">
+            <span>Loading...</span>
+        </div>
+    }
+    else if (errorHappened)
+    {
+        <div class="text-center text-danger">
+            <span>@errorMessage</span>
+        </div>
+    }
+    else
+    {
+        <div class="row justify-content-center g-2">
+            <div class="col-10 col-sm-4">
+                <a href="/findergame" class="btn btn-dark btn-block text-start p-3" style="height: 150px;">
+                    <div class="d-flex flex-column justify-content-between h-100">
+                        <div class="fs-4 fw-bold">Find The Objects</div>
+                        <div class="fs-6 text-end">@FinderLevels Levels</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-10 col-sm-4">
+                <a href="/reading" class="btn btn-dark btn-block text-start p-3" style="height: 150px;">
+                    <div class="d-flex flex-column justify-content-between h-100">
+                        <div class="fs-4 fw-bold">Reading Game</div>
+                        <div class="fs-6 text-end">@ReadingLevels Levels</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-10 col-sm-4">
+                <a href="/blockgame" class="btn btn-dark btn-block text-start p-3" style="height: 150px;">
+                    <div class="d-flex flex-column justify-content-between h-100">
+                        <div class="fs-4 fw-bold">Press the Block</div>
+                        <div class="fs-6 text-end">1 Level</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
 </div>
-

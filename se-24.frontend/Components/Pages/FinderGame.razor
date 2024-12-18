@@ -14,21 +14,21 @@
                     SetDifficulty("Easy");
                     await GetGameLevels();
                 })"
-                        class="btn-rounded">
+                        class="btn btn-dark">
                     Easy
                 </button>
                 <button @onclick="@(async () => {
                     SetDifficulty("Medium");
                     await GetGameLevels();
                 })"
-                        class="btn-rounded">
+                        class="btn btn-dark">
                     Medium
                 </button>
                 <button @onclick="@(async () => {
                     SetDifficulty("Hard");
                     await GetGameLevels();
                 })"
-                        class="btn-rounded">
+                        class="btn btn-dark">
                     Hard
                 </button>
             </div>
@@ -52,7 +52,7 @@
     {
         <div style="position:relative; padding: 10px; text-align: center;">
             <button @onclick="StartGame"
-                    class="btn-rounded">
+                    class="btn btn-dark">
                 Start Game
             </button>
         </div>
@@ -114,12 +114,12 @@ else
                     <p>You completed all the levels. Congratulations!</p>
                 }
                 <div style="text-align: center">
-                    <button @onclick="ReturnToHomePage">
+                    <button @onclick="ReturnToHomePage" class="btn btn-dark" style="margin: 10px">
                         Try other games
                     </button>
                     @if (!completedLevels)
                     {
-                        <button @onclick="LoadNextLevel">
+                        <button @onclick="LoadNextLevel" class="btn btn-dark" style="margin: 10px">
                             Next level
                         </button>
                     }
@@ -130,7 +130,7 @@ else
                             <p>Your score: @score</p>
                             <span>Name:</span>
                             <input type="text" @bind="username"/>
-                            <button @onclick="SaveScore">
+                            <button @onclick="SaveScore" class="btn btn-dark">
                                 Save score
                             </button>
                             @if(scoreSaveStatusMessage != string.Empty)
@@ -157,10 +157,10 @@ else
                         border-radius: 10px;">
                 You failed to find all the objects in the given time!
                 <div style="text-align: center">
-                    <button @onclick="ReturnToHomePage">
+                    <button @onclick="ReturnToHomePage" class="btn btn-dark">
                         Try other games
                     </button>
-                    <button @onclick="ReloadLevel">
+                    <button @onclick="ReloadLevel" class="btn btn-dark">
                         Retry
                     </button>
                 </div>

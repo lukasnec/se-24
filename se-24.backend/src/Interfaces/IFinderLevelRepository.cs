@@ -6,5 +6,6 @@ namespace se_24.backend.src.Interfaces
     {
         Task<List<Level>> GetFinderGameLevels();
         Task<List<Level>> GetFinderGameLevelsByDifficulty(string difficulty);
+        Task<int> GetFinderGameLevelsCount();
     }
 }

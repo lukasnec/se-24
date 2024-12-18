@@ -29,5 +29,11 @@ namespace se_24.backend.src.Repositories
                 .Where(level => level.Level == readingLevel)
                 .ToListAsync();
         }
+
+        public async Task<int> GetReadingGameLevelsCount()
+        {
+            return await _dbContext.ReadingLevels.CountAsync();
+        }
+
     }
 }
