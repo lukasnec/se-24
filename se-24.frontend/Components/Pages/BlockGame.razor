@@ -19,15 +19,21 @@
 <!-- Start/Reset Buttons based on GameState -->
 @if (CurrentGameState == GameState.Waiting)
 {
-    <button @onclick="StartGame">Start New Round</button>
+    <div class="text-center">
+        <button @onclick="StartGame" class="btn btn-dark">Start New Round</button>
+    </div>
 }
 else if (CurrentGameState == GameState.Finished || CurrentGameState == GameState.Failed)
 {
-    <button @onclick="ResetGame">Reset Game</button>
+    <div class="text-center">
+        <button @onclick="ResetGame" class="btn btn-dark">Reset Game</button>
+    </div>
 }
 else if (CurrentGameState == GameState.Started)
 {
-    <button @onclick="EndGame">End Game</button>
+    <div class="text-center">
+        <button @onclick="EndGame" class="btn btn-dark">End Game</button>
+    </div>
 }
 
 @if (showFinalScore)
@@ -37,9 +43,11 @@ else if (CurrentGameState == GameState.Started)
         <p>Your score: @score</p>
         <span>Name:</span>
         <input type="text" @bind="username" />
-        <button @onclick="SaveScore">
-            Save score
-        </button>
+        <div class="text-center">
+            <button @onclick="SaveScore" class="btn btn-dark">
+                Save score
+            </button>
+        </div>
         @if (scoreSaveStatusMessage != string.Empty)
         {
             <p>@scoreSaveStatusMessage</p>
@@ -76,15 +84,12 @@ else if (CurrentGameState == GameState.Started)
         background-color: red;
     }
 
-    button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
-
     /* Disable button click when GameState is not Started */
     .square:disabled {
         pointer-events: none;
+    }
+
+    .btn{
+        margin: 20px;
     }
 </style>

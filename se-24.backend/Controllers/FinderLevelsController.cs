@@ -29,5 +29,15 @@ namespace se_24.backend.Controllers
             var levels = await _finderLevelRepository.GetFinderGameLevelsByDifficulty(difficulty);
             return Ok(levels);
         }
+
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> GetFinderGameLevelsCount()
+        {
+            var count = await _finderLevelRepository.GetFinderGameLevelsCount();
+            Console.WriteLine($"Finder Levels Count: {count}"); // Log to console
+            return Ok(count);
+        }
+
+
     }
 }

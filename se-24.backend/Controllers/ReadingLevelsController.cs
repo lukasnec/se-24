@@ -27,5 +27,13 @@ namespace se_24.backend.Controllers
             var levels = await _readingLevelRepository.GetReadingGameLevelsByReadingLevel(readingLevel);
             return Ok(levels);
         }
+
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> GetReadingGameLevelsCount()
+        {
+            var count = await _readingLevelRepository.GetReadingGameLevelsCount();
+            return Ok(count);
+        }
+
     }
 }
