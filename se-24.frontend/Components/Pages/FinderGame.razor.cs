@@ -15,18 +15,18 @@ public partial class FinderGame
     [Inject] private HttpClient HttpClient { get; set; }
     private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
 
-    private bool isLoading = false;
+    public bool isLoading = false;
     public bool completedLevels = false;
     public int score = 0;
     public string username = string.Empty;
 
-    private bool errorHappened = false;
-    private string errorMessage = string.Empty;
+    public bool errorHappened = false;
+    public string errorMessage = string.Empty;
     public string selectedDifficulty = string.Empty;
     public GameState gameState = GameState.Waiting;
     public int objectsFound = 0;
 
-    private List<Level> levels = [];
+    public List<Level> levels = [];
     public List<Level> currentLevels = [];
     public int currentLevelIndex;
 

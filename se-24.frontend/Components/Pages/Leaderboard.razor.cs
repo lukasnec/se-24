@@ -10,12 +10,19 @@ namespace se_24.frontend.Components.Pages
         public List<Score> Scores { get; set; } = new();
         public string selectedGameName = "All";
         public int topRanks = 0;
+        public string errorMessage = string.Empty;
 
-        protected override async Task OnInitializedAsync()
+        public async Task OnInitializedAsync()
         {
-
-            Scores = await GetScoresAsync();
-            await InvokeAsync(StateHasChanged);
+            try
+            {
+                Scores = await GetScoresAsync();
+                await InvokeAsync(StateHasChanged);
+            }
+            catch (HttpRequestException)
+            {
+                errorMessage = "Failed to load leaderboard.";
+            }
         }
 
         public async Task<List<Score>> GetScoresAsync()
@@ -40,7 +47,7 @@ namespace se_24.frontend.Components.Pages
             }
         }
 
-        private IEnumerable<Score> FilteredScores => Scores
+        public IEnumerable<Score> FilteredScores => Scores
         .Where(s => selectedGameName == "All" || s.GameName == selectedGameName)
         .OrderByDescending(s => s.Value)
         .Take(topRanks > 0 ? topRanks : Scores.Count);

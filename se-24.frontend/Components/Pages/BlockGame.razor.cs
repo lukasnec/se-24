@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
 using se_24.shared.src.Shared;
 using se_24.shared.src.Utilities;
 using src.Enums;
@@ -21,10 +20,10 @@ namespace se_24.frontend.Components.Pages
         private readonly UsernameGenerator _usernameGenerator = new UsernameGenerator();
         public int CurrentStep { get; set; } = 0;
         public string statusMessage = "Press 'Start New Round' to begin.";
-        private bool isAnimatingSequence = false;
+        public bool isAnimatingSequence = false;
         public bool showFinalScore = false;
-        private int? activeSquare = null;
-        private int? clickedSquare = null;
+        public int? activeSquare = null;
+        public int? clickedSquare = null;
         public int score = 0;
         public string username = string.Empty;
         public string scoreSaveStatusMessage = string.Empty;
@@ -119,7 +118,7 @@ namespace se_24.frontend.Components.Pages
             return Sequence[CurrentStep].SquareId == input;
         }
 
-        private bool IsRoundComplete() => CurrentStep >= Sequence.Count;
+        public bool IsRoundComplete() => CurrentStep >= Sequence.Count;
 
         public void EndGame()
         {
@@ -127,7 +126,7 @@ namespace se_24.frontend.Components.Pages
             CurrentGameState = GameState.Finished;
         }
 
-        private void ResetGame()
+        public void ResetGame()
         {
             Sequence.Clear();
             roundNumber = 1; // Reset the round number when the game is reset
@@ -136,11 +135,11 @@ namespace se_24.frontend.Components.Pages
             CurrentGameState = GameState.Waiting;
         }
 
-        private bool IsSquareLit(int squareId) => activeSquare == squareId;
+        public bool IsSquareLit(int squareId) => activeSquare == squareId;
 
-        private bool IsSquareClicked(int squareId) => clickedSquare == squareId;
+        public bool IsSquareClicked(int squareId) => clickedSquare == squareId;
 
-        private bool DisableSquareClick() => CurrentGameState != GameState.Started;
+        public bool DisableSquareClick() => CurrentGameState != GameState.Started;
 
         public void CalculateScore()
         {

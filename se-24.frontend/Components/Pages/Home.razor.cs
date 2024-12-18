@@ -2,11 +2,11 @@
 
 public partial class Home
 {
-    private int FinderLevels { get; set; } = 0;
-    private int ReadingLevels { get; set; } = 0;
-    private bool isLoading = true;
-    private bool errorHappened = false;
-    private string errorMessage = string.Empty;
+    public int FinderLevels { get; set; } = 0;
+    public int ReadingLevels { get; set; } = 0;
+    public bool isLoading = true;
+    public bool errorHappened = false;
+    public string errorMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
